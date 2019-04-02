@@ -1,18 +1,12 @@
 from django.shortcuts import render
 
-posts = [
+matchMate = [
     {
-        'author': 'sebas1',
-        'title': 'Post 1',
-        'content': 'first post content',
-        'date_posted': 'April 1, 2019'
+        'name': 'Sebastian',
+        'personalMessage': '"I really want to meet you!"',
+        'expires': 'May 12, 2019'
     },
-    {
-        'author': 'sebas2',
-        'title': 'Post 2',
-        'content': 'second post content',
-        'date_posted': 'April 2, 2019'
-    }
+    
 ]
 
 # handles the traffic from the homepage. Takes in a request arg and
@@ -21,7 +15,7 @@ posts = [
 
 def home(request):
     context = {
-        'posts': posts
+        'matchMate': matchMate
     }
     return render(request, 'match/home.html', context)
 
