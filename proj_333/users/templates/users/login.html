@@ -1,6 +1,9 @@
 {% extends "match/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+<div class ="welcome-blurb">
+    <p>Welcome! You are a new User! *Insert introduction blurb* </p>
+</div>
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
