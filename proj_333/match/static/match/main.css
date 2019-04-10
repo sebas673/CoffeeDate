@@ -12,6 +12,31 @@ ul {
   margin: 0;
 }
 
+.pull-right{
+  float:right;
+  }
+#head-navbar {
+  width: 100%;
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+}
+.nav>li {
+  display: inline-block;
+  width:initial;
+  float:left;
+  white-space: nowrap;
+}
+.nav { 
+  display: inline-block;
+}
+
+
+.resize {
+  max-width: 35px;
+  max-height: 40px;
+}
+
 .welcome-blurb {
   text-align: center;
   font-weight: 500;

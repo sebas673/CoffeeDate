@@ -1,18 +1,8 @@
 {% extends "match/base.html" %}
 {% block content %}
 <div class ="welcome-blurb">
-    <p>Welcome! You are an existing User! </p>
+    <p>Welcome! You are a New User! </p>
+    <a class="btn btn-primary btn-lg active" href="{% url 'login' %}">Login</a>
+    <a class="btn btn-primary btn-lg active" href="{% url 'register' %}">Register</a>
 </div>
-    {% for match in matchMate %}
-        <article class="media content-section">
-          <div class="media-body">
-            <h3><a class="article-title" href="#">Your Match of the Week is:</a></h3>
-            <h2><a class="article-title" href="#">{{ match.name }}</a></h2>
-            <div class="article-metadata">
-            </div>
-              <a class="mr-2">{{ match.personalMessage }}</a>
-            <p class="article-content">Match Expires On: {{ match.expires }}</p>
-          </div>
-        </article>
-    {% endfor %}
 {% endblock content %}

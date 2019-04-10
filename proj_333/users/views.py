@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm
-
+from django.contrib.auth.models import User
+from .models import Profile
+import random
 
 def register(request):
     if request.method == 'POST':
@@ -19,4 +21,6 @@ def register(request):
 
 @login_required
 def profile(request):
+    # instance.profile.matchedMateID = '3'
     return render(request, 'users/profile.html')
+

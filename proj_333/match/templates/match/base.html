@@ -20,27 +20,45 @@
 </head>
 <body>
     <header class="site-header">
-      <nav class="navbar navbar-expand-md bg-warning navbar-dark fixed-top">
-        <div class="container col-md-2 col-md-offset-5">
-          <a class="navbar-brand" href="{% url 'match-home' %}"><b>Coffee Chats</b></a>
+      <nav class="navbar navbar-inverse navbar-collapse navbar-expand-md bg-warning navbar-dark fixed-top" id="head-navbar">
+        <div class="container">
+            <ul class="nav navbar-nav">
+            {% if user.is_authenticated %}
+              <li><a class="navbar-brand mr-4" href="{% url 'profile' %}"><b>Coffee Chats</b></a></li>
+              {% else %}
+              <li><a class="navbar-brand mr-4" href="{% url 'match-home' %}"><b>Coffee Chats</b></a></li>
+              {% endif %}
+            </ul>
+          
           <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span> -->
-          </button>
-          <!-- <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{% url 'match-home' %}">Home</a>
-              <a class="nav-item nav-link" href="{% url 'match-about' %}">About</a>
-            </div> -->
-          <!-- Navbar Right Side -->
-          <div class="navbar-nav">
-              <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-              <!-- <a class="nav-item nav-link" href="#">Register</a> -->
-            </div>
+          <span class="navbar-toggler-icon"></span> 
+          </button>-->
+          
+          <ul class="nav navbar-nav pull-right">
+              {% if user.is_authenticated %}
+              <li><a class="nav-item nav-link" href="{% url 'profile' %}"><img class="resize rounded-circle account-img" src="{{ user.profile.image.url }}"></a></li>
+              <li><a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a></li>
+                {% if user.is_superuser %}
+                <li><a class="nav-item nav-link" href="{% url 'matchAlgorithm' %}">Match</a></li>
+                {% endif %}
+              {% else %}
+              <li><a class="nav-item nav-link" href="{% url 'login' %}">Login</a></li>
+              <li><a class="nav-item nav-link" href="{% url 'register' %}">Register</a></li>
+               {% endif %}
+          </ul>
           </div>
         </div>
       </nav>
     </header>
+    <br>
     <div class="container">
+      {% if messages %}
+        {% for message in messages %}
+          <div class ="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
         {% block content %}{% endblock %}
     </div>
     <!-- <main role="main" class="container">

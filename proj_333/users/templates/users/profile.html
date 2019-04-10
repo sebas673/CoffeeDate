@@ -1,5 +1,33 @@
 {% extends "match/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <h1>{{ user.username }}</h1>
+<!-- <div class="content-section">
+  <div class="media">
+    <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+    <div class="media-body">
+      <h2 class="account-heading">{{ user.username }}</h2>
+      <p class="text-secondary">{{ user.email }}</p>
+    </div>
+  </div> -->
+  <!-- FORM HERE -->
+<!-- </div> -->
+    
+    <div class ="welcome-blurb">
+        <h1>Welcome {{ user.username }}!</h1>
+        
+        <article class="media content-section">
+          <div class="media-body">
+            <h3><a class="article-title">Your Match of the Week is:</a></h3>
+            <h2><a class="article-title">{{ user.profile.matchedMatePName }}</a></h2>
+            
+            <div class="article-metadata">
+            </div>
+            <h2><img class="img-thumbnail" src="{{ user.profile.matchedMateImage.url }}"></h2>
+            <h2><a class="article-content">{{ user.profile.matchedMatePMessage }}</a></h2>
+            <h2><a class="article-content">E-Mail Me At: {{ user.profile.matchedMatePEmail }}</a></h2>
+            <!-- <p class="article-content">Match Expires On: {{ match.expires }}</p> -->
+          </div>
+        </article>
+      </div>
+
 {% endblock content %}
