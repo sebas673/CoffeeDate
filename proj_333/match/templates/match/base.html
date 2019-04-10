@@ -36,14 +36,14 @@
           
           <ul class="nav navbar-nav pull-right">
               {% if user.is_authenticated %}
-              <li><a class="nav-item nav-link" href="{% url 'profile' %}"><img class="resize rounded-circle account-img" src="{{ user.profile.image.url }}"></a></li>
-              <li><a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a></li>
+              <li><a class="nav-item nav-link mr-4" href="{% url 'profile' %}"><img class="resize rounded-circle account-img" src="{{ user.profile.image.url }}"></a></li>
+              <li><a class="nav-item nav-link mr-4" href="{% url 'logout' %}">Logout</a></li>
                 {% if user.is_superuser %}
-                <li><a class="nav-item nav-link" href="{% url 'matchAlgorithm' %}">Match</a></li>
+                <li><a class="nav-item nav-link mr-4" href="{% url 'matchAlgorithm' %}">Match</a></li>
                 {% endif %}
               {% else %}
-              <li><a class="nav-item nav-link" href="{% url 'login' %}">Login</a></li>
-              <li><a class="nav-item nav-link" href="{% url 'register' %}">Register</a></li>
+              <li><a class="nav-item nav-link mr-4" href="{% url 'login' %}">Login</a></li>
+              <li><a class="nav-item nav-link mr-4" href="{% url 'register' %}">Register</a></li>
                {% endif %}
           </ul>
           </div>
