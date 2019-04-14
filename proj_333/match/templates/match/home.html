@@ -1,10 +1,19 @@
 {% extends "match/base.html" %}
 {% block content %}
 
-<!-- This will appear once you're signed in -->
+<!-- This will appear once you're signed in and don't have a match-->
 {% if user.profile.signed_in %}
-        <h1>This is where can put the match of the week and other stuff that should appear on the homepage once you're
-        signed in</h1>
+  <h1>This is where can put the match of the week and other stuff that should appear on the homepage once you're
+  signed in. This 'find me a match' button will disappear when the user has a match</h1>
+  {% if not user.profile.is_matched %}
+    <a class="btn btn-primary" href="{% url 'match-find' %}" role="button">Find me a match</a>
+  {% endif %}
+
+  {% if user.profile.is_matched %}
+    <h2><a class="article-title">{{ user.profile.matchedMatePName }}</a></h2>
+  {% endif }
+
+
 <!-- This will appear when you're NOT signed in  -->
 {% else %}
 <div>

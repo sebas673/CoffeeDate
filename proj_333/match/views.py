@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.contrib.auth.models import User
+from users.models import Profile
+import random
 import threading
 
 # handles the traffic from the homepage. Takes in a request arg and
@@ -26,3 +29,45 @@ def home(request):
 
 def about(request):
     return render(request, 'match/about.html', {'title': 'About'})
+
+
+def find_match(request):
+    matching = random_match()
+    for match in matching:
+        user1, user2 = User.objects.get(id=match[0]), User.objects.get(id=match[1])
+        set_match(user1, user2)
+    return render(request, 'match/home.html')
+
+# helper function
+
+
+def set_match(user1, user2):
+    user1.profile.match_mate_ID = user2.id
+    user1.profile.is_matched = True
+    user1.profile.save()
+
+    user2.profile.match_mate_ID = user1.id
+    user2.profile.is_matched = True
+    user2.profile.save()
+
+# helper function
+
+
+def random_match():
+    pairs = []
+    user_ids = [user.id for user in User.objects.all()]
+
+    random.shuffle(user_ids)
+
+    i = 0
+    j = 0
+    numUsers = len(user_ids)
+    while i < numUsers - 1:
+        pairs.append([user_ids[i], user_ids[i + 1]])
+        i += 2
+
+    # odd number of users case
+    if numUsers % 2 == 1:
+        pairs.append([user_ids[0], user_ids[numUsers - 1]])
+
+    return pairs
