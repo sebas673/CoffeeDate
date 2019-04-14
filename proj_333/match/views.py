@@ -42,13 +42,24 @@ def find_match(request):
 
 
 def set_match(user1, user2):
-    user1.profile.match_mate_ID = user2.id
+    user1.profile.mate_ID = user2.id
+    user1.profile.mate_firstname = user2.first_name
+    user1.profile.mate_lastname = user2.last_name
+    user1.profile.mate_personal_message = user2.profile.personal_message
+    user1.profile.mate_image = user2.profile.image
+    user1.profile.mate_email = user2.email
     user1.profile.is_matched = True
     user1.profile.save()
 
-    user2.profile.match_mate_ID = user1.id
+    user2.profile.mate_ID = user1.id
+    user2.profile.mate_firstname = user1.first_name
+    user2.profile.mate_lastname = user1.last_name
+    user2.profile.mate_personal_message = user1.profile.personal_message
+    user2.profile.mate_image = user1.profile.image
+    user2.profile.mate_email = user1.email
     user2.profile.is_matched = True
     user2.profile.save()
+
 
 # helper function
 

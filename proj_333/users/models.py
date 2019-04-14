@@ -6,11 +6,16 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
-
     personal_message = models.TextField(max_length=None, default="Hello!")
-    match_mate_ID = models.PositiveIntegerField(default=0)
     signed_in = models.BooleanField(default=True)
     is_matched = models.BooleanField(default=False)
+
+    mate_ID = models.PositiveIntegerField(default=0)
+    mate_firstname = models.CharField(max_length=50, default="Christoper")
+    mate_lastname = models.CharField(max_length=50, default="Eisgruber")
+    mate_image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    mate_personal_message = models.TextField(max_length=None, default="Hello!")
+    mate_email = models.TextField(max_length=None, default="princeton@princeton.edu")
 
     def __str__(self):
         return f'{self.user.username} Profile'

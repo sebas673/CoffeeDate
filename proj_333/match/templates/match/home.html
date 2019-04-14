@@ -1,34 +1,35 @@
 {% extends "match/base.html" %}
 {% block content %}
-
 <!-- This will appear once you're signed in and don't have a match-->
-{% if user.profile.signed_in %}
-  <h1>This is where can put the match of the week and other stuff that should appear on the homepage once you're
-  signed in. This 'find me a match' button will disappear when the user has a match</h1>
-  {% if not user.profile.is_matched %}
-    <a class="btn btn-primary" href="{% url 'match-find' %}" role="button">Find me a match</a>
+  {% if user.profile.signed_in %}
+    {% if not user.profile.is_matched %}
+      <h1>This is where can put the match of the week and other stuff that should appear on the homepage once you're
+      signed in. This 'find me a match' button will disappear when the user has a match</h1>
+      {% if not user.profile.is_matched %}
+        <a class="btn btn-primary" href="{% url 'match-find' %}" role="button">Find me a match</a>
+      {% endif %}
+    {% else %}
+      <h1>This is your match of the week</h1>
+      <h2><img class="img-thumbnail" src="{{ user.profile.mate_image.url }}"></h2>
+      <h2><a class="article-title">{{ user.profile.mate_firstname }} {{ user.profile.mate_lastname }}</a></h2>
+      <h2><a class="article-content">{{ user.profile.mate_personal_message }}</a></h2>
+      <h2><a class="article-content">{{ user.profile.mate_email }}</a></h2>
+    {% endif %}
+  <!-- This will appear when you're NOT signed in  -->
+  {% else %}
+  <div>
+    <div>
+      Meet new people
+    </div>
+    <div>
+      Do stuff
+    </div>
+    <div>
+      Do more stuff
+    </div>
+    <div>
+      I kinda like the twitter homepage. Maybe we can do something like that
+    </div>
+  </div>
   {% endif %}
-
-  {% if user.profile.is_matched %}
-    <h2><a class="article-title">{{ user.profile.matchedMatePName }}</a></h2>
-  {% endif }
-
-
-<!-- This will appear when you're NOT signed in  -->
-{% else %}
-<div>
-  <div>
-    Meet new people
-  </div>
-  <div>
-    Do stuff
-  </div>
-  <div>
-    Do more stuff
-  </div>
-  <div>
-    I kinda like the twitter homepage. Maybe we can do something like that
-  </div>
-</div>
-{% endif %}
 {% endblock content %}
