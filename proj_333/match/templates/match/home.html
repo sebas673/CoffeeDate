@@ -1,6 +1,12 @@
 {% extends "match/base.html" %}
 {% block content %}
 
+<!-- This will appear once you're signed in -->
+{% if user.profile.signed_in %}
+        <h1>This is where can put the match of the week and other stuff that should appear on the homepage once you're
+        signed in</h1>
+<!-- This will appear when you're NOT signed in  -->
+{% else %}
 <div>
   <div>
     Meet new people
@@ -15,4 +21,5 @@
     I kinda like the twitter homepage. Maybe we can do something like that
   </div>
 </div>
+{% endif %}
 {% endblock content %}
