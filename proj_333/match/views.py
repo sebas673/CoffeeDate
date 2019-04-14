@@ -12,7 +12,6 @@ class Timer(threading.Thread):
 
     def run(self):
         while not self.event.is_set():
-            # this is the event to do
             print('hello')
             num_of_days = 7
             self.event.wait(num_of_days * 24 * 3600)
