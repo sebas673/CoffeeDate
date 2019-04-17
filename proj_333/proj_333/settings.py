@@ -60,6 +60,7 @@ MIDDLEWARE = [
 AUTHENTICATION_BACKENDS = [
     'uniauth.backends.LinkedEmailBackend',
     'uniauth.backends.CASBackend',
+    'django.contrib.auth.backends.ModelBackend'
 ]
 
 ROOT_URLCONF = 'proj_333.urls'
