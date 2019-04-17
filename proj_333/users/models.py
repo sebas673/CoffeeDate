@@ -4,9 +4,7 @@ from django.contrib.auth.models import User
 
 
 class Profile(models.Model):
-    # REQUIRED_FIELDS = ('user',)
-
-    user = models.OneToOneField(User, related_name='Profile', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     personal_message = models.TextField(max_length=None, default="Hello!")
     signed_in = models.BooleanField(default=True)

@@ -42,8 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'storages',
-    'uniauth'
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -54,12 +53,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
-
-# Use the Uniauth authentication backends
-AUTHENTICATION_BACKENDS = [
-    'uniauth.backends.LinkedEmailBackend',
-    'uniauth.backends.CASBackend',
 ]
 
 ROOT_URLCONF = 'proj_333.urls'
@@ -139,14 +132,7 @@ MEDIA_URL = '/media/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'match-home'
-# LOGIN_URL = 'login'
-
-
-LOGIN_URL = "/accounts/login/"
-UNIAUTH_LOGIN_DISPLAY_STANDARD = False
-UNIAUTH_LOGOUT_CAS_COMPLETELY = True
-# AUTH_USER_MODEL = "users.Profile"
-
+LOGIN_URL = 'login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
