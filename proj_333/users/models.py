@@ -6,14 +6,17 @@ from django.contrib.auth import get_user_model
 # if you are trying to access our custom Profile use user.Profile
 # if you are trying to access the CAS username use user.profile
 # it took me way too long to figure this out
+
+
 class Profile(models.Model):
 
     user = models.OneToOneField(get_user_model(), related_name='Profile', on_delete=models.CASCADE, null=False)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     personal_message = models.TextField(max_length=None, default="Hello!")
 
-    signed_in = models.BooleanField(default=True)
-    is_matched = models.BooleanField(default=False)
+    signed_in = models.BooleanField(default=True) # this one will never change
+    is_matched = models.BooleanField(default=False) # does the user have a match
+    has_customized = models.BooleanField(default=False) # has the user customized his preferences
 
     mate_ID = models.PositiveIntegerField(default=0)
     mate_firstname = models.CharField(max_length=50, default="Christoper")

@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from users.models import Profile
+from django.contrib import messages
 import random
 import threading
 
@@ -24,7 +25,18 @@ class Timer(threading.Thread):
 
 
 def home(request):
-    return render(request, 'match/home.html')
+    if request.user.is_authenticated:
+        user = request.user
+        # makes the user pick their preferences
+        if user.Profile.has_customized == False:
+            messages.success(request, f'Finish customizing your profile')
+            user.Profile.has_customized = True
+            user.Profile.save()
+            return redirect('profile')
+        else:
+            return render(request, 'match/home.html')
+    else:
+        return render(request, 'match/home.html')
 
 
 def about(request):
@@ -42,23 +54,23 @@ def find_match(request):
 
 
 def set_match(user1, user2):
-    user1.profile.mate_ID = user2.id
-    user1.profile.mate_firstname = user2.first_name
-    user1.profile.mate_lastname = user2.last_name
-    user1.profile.mate_personal_message = user2.profile.personal_message
-    user1.profile.mate_image = user2.profile.image
-    user1.profile.mate_email = user2.email
-    user1.profile.is_matched = True
-    user1.profile.save()
+    user1.Profile.mate_ID = user2.id
+    user1.Profile.mate_firstname = user2.first_name
+    user1.Profile.mate_lastname = user2.last_name
+    user1.Profile.mate_personal_message = user2.Profile.personal_message
+    user1.Profile.mate_image = user2.Profile.image
+    user1.Profile.mate_email = user2.email
+    user1.Profile.is_matched = True
+    user1.Profile.save()
 
-    user2.profile.mate_ID = user1.id
-    user2.profile.mate_firstname = user1.first_name
-    user2.profile.mate_lastname = user1.last_name
-    user2.profile.mate_personal_message = user1.profile.personal_message
-    user2.profile.mate_image = user1.profile.image
-    user2.profile.mate_email = user1.email
-    user2.profile.is_matched = True
-    user2.profile.save()
+    user2.Profile.mate_ID = user1.id
+    user2.Profile.mate_firstname = user1.first_name
+    user2.Profile.mate_lastname = user1.last_name
+    user2.Profile.mate_personal_message = user1.Profile.personal_message
+    user2.Profile.mate_image = user1.Profile.image
+    user2.Profile.mate_email = user1.email
+    user2.Profile.is_matched = True
+    user2.Profile.save()
 
 
 # helper function
