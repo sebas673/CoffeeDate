@@ -50,8 +50,6 @@ def find_match(request):
         set_match(user1, user2)
     return render(request, 'match/home.html')
 
-# helper function
-
 
 def set_match(user1, user2):
     user1.Profile.mate_ID = user2.id
@@ -73,12 +71,10 @@ def set_match(user1, user2):
     user2.Profile.save()
 
 
-# helper function
-
-
 def random_match():
     pairs = []
-    user_ids = [user.id for user in User.objects.all()]
+    user_ids = [user.id for user in User.objects.all().filter(Profile__is_matched='False')]
+    print(user_ids)
 
     random.shuffle(user_ids)
 
