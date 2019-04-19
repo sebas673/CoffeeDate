@@ -146,7 +146,6 @@ LOGIN_REDIRECT_URL = 'match-home'
 LOGIN_URL = "/accounts/login/"
 UNIAUTH_LOGIN_DISPLAY_STANDARD = False
 UNIAUTH_LOGOUT_CAS_COMPLETELY = True
-# AUTH_USER_MODEL = "users.Profile"
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

@@ -1,14 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 # from PIL import Image
 
-
+# if you are trying to access our custom Profile use user.Profile
+# if you are trying to access the CAS username use user.profile
+# it took me way too long to figure this out
 class Profile(models.Model):
-    # REQUIRED_FIELDS = ('user',)
 
-    user = models.OneToOneField(User, related_name='Profile', on_delete=models.CASCADE)
+    user = models.OneToOneField(get_user_model(), related_name='Profile', on_delete=models.CASCADE, null=False)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     personal_message = models.TextField(max_length=None, default="Hello!")
+
     signed_in = models.BooleanField(default=True)
     is_matched = models.BooleanField(default=False)
 
