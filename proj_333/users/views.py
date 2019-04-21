@@ -34,6 +34,9 @@ def profile(request):
             user_that_updated = request.user
             if user_that_updated.Profile.is_matched == True:
                 user_to_update = User.objects.all().get(Profile__mate_ID=user_that_updated.id)
+                user_to_update.Profile.mate_firstname = user_that_updated.first_name
+                user_to_update.Profile.mate_lastname = user_that_updated.last_name
+                user_to_update.Profile.mate_image = user_that_updated.Profile.image
                 user_to_update.Profile.mate_personal_message = user_that_updated.Profile.personal_message
                 user_to_update.Profile.save()
 
