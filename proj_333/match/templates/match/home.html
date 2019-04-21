@@ -9,11 +9,17 @@
         <a class="btn btn-primary" href="{% url 'match-find' %}" role="button">Find me a match</a>
       {% endif %}
     {% else %}
-      <h1>This is your match of the week</h1>
-      <h2><img class="img-thumbnail" src="{{ user.Profile.mate_image.url }}"></h2>
-      <h2><a class="article-title">{{ user.Profile.mate_firstname }} {{ user.Profile.mate_lastname }}</a></h2>
-      <h2><a class="article-content">{{ user.Profile.mate_personal_message }}</a></h2>
-      <h2><a class="article-content">{{ user.Profile.mate_email }}</a></h2>
+      <h2>Meet your match of the week!</h1>
+      <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ user.Profile.mate_image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2">{{ user.Profile.mate_firstname }} {{ user.Profile.mate_lastname }}</a>
+              <small class="text-muted">{{ user.Profile.mate_email }}</small>
+            </div>
+            <p class="article-content">{{ user.Profile.mate_personal_message }}</p>
+          </div>
+      </article>
     {% endif %}
   <!-- This will appear when you're NOT signed in  -->
   {% else %}

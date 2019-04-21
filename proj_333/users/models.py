@@ -14,16 +14,16 @@ class Profile(models.Model):
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     personal_message = models.TextField(max_length=None, default="Hello!")
 
-    signed_in = models.BooleanField(default=True) # this one will never change
-    is_matched = models.BooleanField(default=False) # does the user have a match?
-    has_customized = models.BooleanField(default=False) # has the user customized their preferences?
+    signed_in = models.BooleanField(default=True)  # this one will never change
+    is_matched = models.BooleanField(default=False)  # does the user have a match?
+    has_customized = models.BooleanField(default=False)  # has the user customized their preferences?
 
     mate_ID = models.PositiveIntegerField(default=0)
     mate_firstname = models.CharField(max_length=50, default="Christoper")
     mate_lastname = models.CharField(max_length=50, default="Eisgruber")
     mate_image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     mate_personal_message = models.TextField(max_length=None, default="Hello!")
-    mate_email = models.TextField(max_length=None, default="princeton@princeton.edu")
+    mate_email = models.CharField(max_length=50, default="princeton@princeton.edu")
 
     def __str__(self):
         return f'{self.user.username} Profile'
