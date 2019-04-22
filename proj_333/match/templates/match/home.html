@@ -20,6 +20,18 @@
             <p class="article-content">{{ user.Profile.mate_personal_message }}</p>
           </div>
       </article>
+      <br>
+      <h2>Your groups</h2>
+      {% for group in groups %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ group.group_image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{% url 'group-detail' group.id %}">{{ group.group_name }}</a>
+          </div>
+          <p class="article-content">{{ group.group_description }}</p>
+        </article>
+      {% endfor %}
     {% endif %}
   <!-- This will appear when you're NOT signed in  -->
   {% else %}

@@ -1,13 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from users.models import Profile
 from django.contrib import messages
 import random
 import threading
-
-# handles the traffic from the homepage. Takes in a request arg and
-# returns what we want the user to see when they are sent to this route.
-
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView
+)
+from .models import Group
 
 # class Timer(threading.Thread):
 #     def __init__(self):
@@ -41,6 +46,52 @@ def home(request):
 
 def about(request):
     return render(request, 'match/about.html', {'title': 'About'})
+
+
+class GroupListView(ListView):
+    model = Group
+    template_name = 'match/home.html'  # <app>/<model>_<viewtype>.html
+    context_object_name = 'groups'
+    ordering = ['-date_created']
+
+
+class GroupDetailView(DetailView):
+    model = Group
+
+
+class GroupCreateView(LoginRequiredMixin, CreateView):
+    model = Group
+    fields = ['group_name', 'group_image', 'group_description']
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
+
+class GroupUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Group
+    fields = ['group_name', 'group_image', 'group_description']
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        group = self.get_object()
+        if self.request.user == group.owner:
+            return True
+        return False
+
+
+class GroupDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Group
+    success_url = '/'
+
+    def test_func(self):
+        group = self.get_object()
+        if self.request.user == group.owner:
+            return True
+        return False
 
 
 def find_match(request):
