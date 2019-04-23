@@ -39,7 +39,10 @@ def home(request):
             user.Profile.save()
             return redirect('profile')
         else:
-            return render(request, 'match/home.html')
+            context = {
+                'groups': Group.objects.all()
+            }
+            return render(request, 'match/home.html', context)
     else:
         return render(request, 'match/home.html')
 
@@ -48,11 +51,12 @@ def about(request):
     return render(request, 'match/about.html', {'title': 'About'})
 
 
-class GroupListView(ListView):
-    model = Group
-    template_name = 'match/home.html'  # <app>/<model>_<viewtype>.html
-    context_object_name = 'groups'
-    ordering = ['-date_created']
+# class GroupListView(ListView):
+#     model = Group
+#     user = self.User
+#     template_name = 'match/home.html'  # <app>/<model>_<viewtype>.html
+#     context_object_name = 'groups'
+#     ordering = ['-date_created']
 
 
 class GroupDetailView(DetailView):

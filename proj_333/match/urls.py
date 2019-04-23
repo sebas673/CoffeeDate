@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import (
-    GroupListView,
+    # GroupListView,
     GroupDetailView,
     GroupCreateView,
     GroupUpdateView,
@@ -9,7 +9,7 @@ from .views import (
 )
 
 urlpatterns = [
-    path('', GroupListView.as_view(), name='match-home'),
+    path('', views.home, name='match-home'),
     path('group/<int:pk>/', GroupDetailView.as_view(), name='group-detail'),
     path('group/new/', GroupCreateView.as_view(), name='group-create'),
     path('group/<int:pk>/update/', GroupUpdateView.as_view(), name='group-update'),
