@@ -65,7 +65,7 @@ class GroupDetailView(DetailView):
 
 class GroupCreateView(LoginRequiredMixin, CreateView):
     model = Group
-    fields = ['group_name', 'group_image', 'group_description']
+    fields = ['group_name', 'group_image', 'group_description', 'members']
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -74,7 +74,7 @@ class GroupCreateView(LoginRequiredMixin, CreateView):
 
 class GroupUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Group
-    fields = ['group_name', 'group_image', 'group_description']
+    fields = ['group_name', 'group_image', 'group_description', 'members']
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
