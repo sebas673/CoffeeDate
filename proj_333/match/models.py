@@ -10,7 +10,6 @@ class Group(models.Model):
     group_image = models.ImageField(default='default.jpg', upload_to='group_pics')
     date_created = models.DateTimeField(default=timezone.now)
     group_description = models.TextField()
-    delete_me = models.TextField()
     owner = models.ForeignKey(User, on_delete=models.CASCADE)  # on_delete=models.CASCADE means this group will be deleted when the owner us deleted
     # members = ArrayField(models.PositiveIntegerField(default=0), blank=True)
 
