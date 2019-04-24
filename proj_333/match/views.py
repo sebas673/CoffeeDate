@@ -116,7 +116,7 @@ def match_all(request):  # matches all the members
     return render(request, 'match/home.html')
 
 
-def match_group(request, pk):  # matches people from each group
+def match_group(request, pk):  # matches people from the group identified by pk
     is_group = True
 
     matching = random_match(is_group, pk)
@@ -125,7 +125,11 @@ def match_group(request, pk):  # matches people from each group
         group_in = Group.objects.all().filter(id=pk)
         pair = Pair(pair_1=user1.id, pair_2=user2.id, pair_group=group_in[0])
         pair.save()
-        # print(pair)
+        print(pair)
+
+    # context = {
+    #     'pairs': Pair.objects.all().filter()
+    # }
 
     return render(request, 'match/home.html')
 
