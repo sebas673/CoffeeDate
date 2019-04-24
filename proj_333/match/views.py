@@ -4,7 +4,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from users.models import Profile
 from django.contrib import messages
 import random
-import threading
 from django.views.generic import (
     ListView,
     DetailView,
@@ -41,16 +40,15 @@ def home(request):
         else:
 
             #
-            group_delete = Group.objects.all().filter(group_name='the princeton white people club')
-            pair_delete = Pair(pair_1='0', pair_2='0', pair_group=group_delete[0])
-            pair_delete.save()
-            print(pair_delete)
-            # print(group)
+            # group_delete = Group.objects.all().filter(group_name='the princeton white people club')
+            # pair_delete = Pair(pair_1='0', pair_2='0', pair_group=group_delete[0])
+            # pair_delete.save()
+            # print(pair_delete)
             #
 
-        context = {
-            'groups': Group.objects.all()
-        }
+            context = {
+                'groups': Group.objects.all()
+            }
         return render(request, 'match/home.html', context)
     else:
         return render(request, 'match/home.html')
@@ -107,11 +105,28 @@ class GroupDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 
-def find_match(request):
-    matching = random_match()
+def match_all(request):  # matches all the members
+    is_group = False
+    pk = -1
+
+    matching = random_match(is_group, pk)
     for match in matching:
         user1, user2 = User.objects.get(id=match[0]), User.objects.get(id=match[1])
         set_match(user1, user2)
+    return render(request, 'match/home.html')
+
+
+def match_group(request, pk):  # matches people from each group
+    is_group = True
+
+    matching = random_match(is_group, pk)
+    for match in matching:
+        user1, user2 = User.objects.get(id=match[0]), User.objects.get(id=match[1])
+        group_in = Group.objects.all().filter(id=pk)
+        pair = Pair(pair_1=user1.id, pair_2=user2.id, pair_group=group_in[0])
+        pair.save()
+        # print(pair)
+
     return render(request, 'match/home.html')
 
 
@@ -136,9 +151,15 @@ def set_match(user1, user2):
     user2.Profile.save()
 
 
-def random_match():
+def random_match(is_group, pk):  # if is_group is True then match all the members of the group with pk
     pairs = []
-    user_ids = [user.id for user in User.objects.all().filter(Profile__is_matched='False')]
+
+    if is_group == False:
+        user_ids = [user.id for user in User.objects.all().filter(Profile__is_matched='False')]
+
+    elif is_group == True:
+        member_list = [Group.members.all() for Group in Group.objects.all().filter(id=pk)]
+        user_ids = [Profile.user.id for Profile in member_list[0]]
 
     random.shuffle(user_ids)
 

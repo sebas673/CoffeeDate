@@ -15,5 +15,6 @@ urlpatterns = [
     path('group/<int:pk>/update/', GroupUpdateView.as_view(), name='group-update'),
     path('group/<int:pk>/delete/', GroupDeleteView.as_view(), name='group-delete'),
     path('about/', views.about, name='match-about'),
-    path('match/', views.find_match, name='match-find'),
+    path('match/', views.match_all, name='match-all'),
+    path('match/group/<int:pk>/', views.match_group, name='match-group')
 ]

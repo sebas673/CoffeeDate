@@ -6,7 +6,7 @@
       <h1>This is where can put the match of the week and other stuff that should appear on the homepage once you're
       signed in. This 'find me a match' button will disappear when the user has a match</h1>
       {% if not user.Profile.is_matched %}
-        <a class="btn btn-primary" href="{% url 'match-find' %}" role="button">Find me a match</a>
+        <a class="btn btn-primary" href="{% url 'match-all' %}" role="button">Find me a match</a>
       {% endif %}
     {% else %}
       <h2>Meet your match of the week!</h1>
