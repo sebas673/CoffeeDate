@@ -12,7 +12,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Group
+from .models import Group, Pair
 
 # class Timer(threading.Thread):
 #     def __init__(self):
@@ -39,10 +39,19 @@ def home(request):
             user.Profile.save()
             return redirect('profile')
         else:
-            context = {
-                'groups': Group.objects.all()
-            }
-            return render(request, 'match/home.html', context)
+
+            #
+            group_delete = Group.objects.all().filter(group_name='the princeton white people club')
+            pair_delete = Pair(pair_1='0', pair_2='0', pair_group=group_delete[0])
+            pair_delete.save()
+            print(pair_delete)
+            # print(group)
+            #
+
+        context = {
+            'groups': Group.objects.all()
+        }
+        return render(request, 'match/home.html', context)
     else:
         return render(request, 'match/home.html')
 
@@ -107,6 +116,7 @@ def find_match(request):
 
 
 def set_match(user1, user2):
+
     user1.Profile.mate_ID = user2.id
     user1.Profile.mate_firstname = user2.first_name
     user1.Profile.mate_lastname = user2.last_name
@@ -129,7 +139,6 @@ def set_match(user1, user2):
 def random_match():
     pairs = []
     user_ids = [user.id for user in User.objects.all().filter(Profile__is_matched='False')]
-    print(user_ids)
 
     random.shuffle(user_ids)
 

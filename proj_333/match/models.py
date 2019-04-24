@@ -1,24 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.postgres.fields import ArrayField
 from django.urls import reverse
 from django.utils import timezone
 from users.models import Profile
 
 
 class Group(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)  # on_delete=models.CASCADE means this group will be deleted when the owner us deleted
     group_name = models.CharField(max_length=100)
     group_image = models.ImageField(default='default.jpg', upload_to='group_pics')
     date_created = models.DateTimeField(default=timezone.now)
     group_description = models.TextField()
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)  # on_delete=models.CASCADE means this group will be deleted when the owner us deleted
-    # members = ArrayField(models.PositiveIntegerField(default=0), blank=True)
-
-    members = models.ManyToManyField(
-        Profile,
-        through='Membership',
-        through_fields=('group', 'member'),
-    )
+    members = models.ManyToManyField(Profile)
 
     def __str__(self):
         return self.group_name
@@ -27,6 +20,11 @@ class Group(models.Model):
         return reverse('group-detail', kwargs={'pk': self.pk})
 
 
-class Membership(models.Model):
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    member = models.ForeignKey(Profile, on_delete=models.CASCADE)
+class Pair(models.Model):
+    pair_1 = models.PositiveIntegerField(default=0)
+    pair_2 = models.PositiveIntegerField(default=0)
+    # group_id = models.PositiveIntegerField(default=0)
+    pair_group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f'{self.pair_1} & {self.pair_2} in "{self.pair_group}" Pair'
