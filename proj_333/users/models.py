@@ -2,10 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
-# if you are trying to access our custom Profile use user.Profile
-# if you are trying to access the CAS username use user.profile
-# it took me way too long to figure this out
-
 
 class Profile(models.Model):
 

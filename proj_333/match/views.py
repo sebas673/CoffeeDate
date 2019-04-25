@@ -47,8 +47,10 @@ def home(request):
             #
 
             context = {
-                'groups': Group.objects.all()
+                'groups': Group.objects.all().filter(members=user.Profile),
+                'pairs': Pair.objects.all().filter(pair_1=user.id) | Pair.objects.all().filter(pair_2=user.id)
             }
+            print('context')
         return render(request, 'match/home.html', context)
     else:
         return render(request, 'match/home.html')
@@ -123,7 +125,8 @@ def match_group(request, pk):  # matches people from the group identified by pk
     for match in matching:
         user1, user2 = User.objects.get(id=match[0]), User.objects.get(id=match[1])
         group_in = Group.objects.all().filter(id=pk)
-        pair = Pair(pair_1=user1.id, pair_2=user2.id, pair_group=group_in[0])
+        pair = Pair(pair_1=user1.id, pair_1_first=user1.first_name, pair_1_last=user1.last_name,
+                    pair_2=user2.id, pair_2_first=user2.first_name, pair_2_last=user2.last_name, pair_group=group_in[0])
         pair.save()
         print(pair)
 

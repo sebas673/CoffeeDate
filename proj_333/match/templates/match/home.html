@@ -1,6 +1,5 @@
 {% extends "match/base.html" %}
 {% block content %}
-<!-- This will appear once you're signed in and don't have a match-->
   {% if user.Profile.signed_in %}
     {% if not user.Profile.is_matched %}
       <h1>This is where can put the match of the week and other stuff that should appear on the homepage once you're
@@ -30,10 +29,18 @@
               <a class="mr-2" href="{% url 'group-detail' group.id %}">{{ group.group_name }}</a>
           </div>
           <p class="article-content">{{ group.group_description }}</p>
+          {% for pair in pairs %}
+            {% if pair.pair_group == group %}
+              {% if pair.1 == user %}
+                <p class="article-content">You're matched with: {{ pair.pair_2_first }}</p>
+              {% else %}
+                <p class="article-content">You're matched with: {{ pair.pair_1_first }}</p>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
         </article>
       {% endfor %}
     {% endif %}
-  <!-- This will appear when you're NOT signed in  -->
   {% else %}
   <div>
     <div>

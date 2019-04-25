@@ -22,8 +22,12 @@ class Group(models.Model):
 
 class Pair(models.Model):
     pair_1 = models.PositiveIntegerField(default=0)
+    pair_1_first = models.CharField(max_length=50, null=True)
+    pair_1_last = models.CharField(max_length=50, null=True)
     pair_2 = models.PositiveIntegerField(default=0)
-    # group_id = models.PositiveIntegerField(default=0)
+    pair_2_first = models.CharField(max_length=50, null=True)
+    pair_2_last = models.CharField(max_length=50, null=True)
+
     pair_group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
