@@ -21,7 +21,7 @@ class Profile(models.Model):
     mate_email = models.CharField(max_length=50, default="princeton@princeton.edu")
 
     def __str__(self):
-        return f'{self.user.username} Profile'
+        return f'{self.user.first_name} Profile'
 
     # have to find a way to do this with aws S3
     # def save(self, *args, **kwargs):
