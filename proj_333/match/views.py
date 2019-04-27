@@ -71,6 +71,11 @@ def about(request):
 class GroupDetailView(DetailView):
     model = Group
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pairs'] = Pair.objects.filter(pair_group=self.object)
+        return context
+
 
 class GroupCreateView(LoginRequiredMixin, CreateView):
     model = Group

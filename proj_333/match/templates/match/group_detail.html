@@ -13,4 +13,9 @@
           </div>
           <p class="article-content">{{ object.group_description }}</p>
     </article>
+    {% if object.owner == user %}
+      {% for pair in pairs %}
+        <h4>{{ pair.pair_1_first }} {{ pair.pair_1_last }} is matched with {{ pair.pair_2_first }} {{ pair.pair_2_last }}</h4>
+      {% endfor %}
+    {% endif %}
 {% endblock content %}
