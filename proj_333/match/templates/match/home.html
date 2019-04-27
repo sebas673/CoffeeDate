@@ -8,7 +8,7 @@
         <a class="btn btn-primary" href="{% url 'match-all' %}" role="button">Find me a match</a>
       {% endif %}
     {% else %}
-      <h2>Meet your match of the week!</h1>
+      <h2>You're match from around campus</h1>
       <article class="media content-section">
           <img class="rounded-circle article-img" src="{{ user.Profile.mate_image.url }}">
           <div class="media-body">
@@ -28,10 +28,9 @@
             <div class="article-metadata">
               <a class="mr-2" href="{% url 'group-detail' group.id %}">{{ group.group_name }}</a>
           </div>
-          <p class="article-content">{{ group.group_description }}</p>
           {% for pair in pairs %}
             {% if pair.pair_group == group %}
-              {% if pair.1 == user %}
+              {% if pair.pair_1 == user.id %}
                 <p class="article-content">You're matched with: {{ pair.pair_2_first }}</p>
               {% else %}
                 <p class="article-content">You're matched with: {{ pair.pair_1_first }}</p>

@@ -107,7 +107,8 @@ class GroupDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 
-def match_all(request):  # matches all the members
+# matches all the members
+def match_all(request):  
     is_group = False
     pk = -1
 
@@ -118,23 +119,26 @@ def match_all(request):  # matches all the members
     return render(request, 'match/home.html')
 
 
-def match_group(request, pk):  # matches people from the group identified by pk
-    is_group = True
+# matches people from the group identified by pk
+def match_group(request, pk):  
+    group_in = Group.objects.get(id=pk)
+    if request.user == group_in.owner:
+        is_group = True
 
-    matching = random_match(is_group, pk)
-    for match in matching:
-        user1, user2 = User.objects.get(id=match[0]), User.objects.get(id=match[1])
-        group_in = Group.objects.all().filter(id=pk)
-        pair = Pair(pair_1=user1.id, pair_1_first=user1.first_name, pair_1_last=user1.last_name,
-                    pair_2=user2.id, pair_2_first=user2.first_name, pair_2_last=user2.last_name, pair_group=group_in[0])
-        pair.save()
-        print(pair)
+        matching = random_match(is_group, pk)
+        for match in matching:
+            user1, user2 = User.objects.get(id=match[0]), User.objects.get(id=match[1])
+            pair = Pair(pair_1=user1.id, pair_1_first=user1.first_name, pair_1_last=user1.last_name,
+                        pair_2=user2.id, pair_2_first=user2.first_name, pair_2_last=user2.last_name, pair_group=group_in)
+            pair.save()
 
-    # context = {
-    #     'pairs': Pair.objects.all().filter()
-    # }
+        # context = {
+        #     'pairs': Pair.objects.all().filter()
+        # }
 
-    return render(request, 'match/home.html')
+        return render(request, 'match/home.html')
+    else:
+        return redirect('group-detail', pk)
 
 
 def set_match(user1, user2):
@@ -158,7 +162,8 @@ def set_match(user1, user2):
     user2.Profile.save()
 
 
-def random_match(is_group, pk):  # if is_group is True then match all the members of the group with pk
+# if is_group is True then match all the members of the group with pk
+def random_match(is_group, pk):  
     pairs = []
 
     if is_group == False:
