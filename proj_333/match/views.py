@@ -128,6 +128,13 @@ def match_all(request):
 def match_group(request, pk):  
     group_in = Group.objects.get(id=pk)
     if request.user == group_in.owner:
+
+        # will delete all the old Pairs when running a new matching
+        pairs = Pair.objects.all().filter(pair_group=group_in)
+        for pair in pairs:
+            pair.delete()
+
+
         is_group = True
 
         matching = random_match(is_group, pk)
@@ -141,7 +148,7 @@ def match_group(request, pk):
         #     'pairs': Pair.objects.all().filter()
         # }
 
-        return render(request, 'match/home.html')
+        return redirect('group-detail', pk)
     else:
         return redirect('group-detail', pk)
 
