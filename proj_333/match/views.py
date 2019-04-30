@@ -12,6 +12,7 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Group, Pair
+from django import forms
 
 # class Timer(threading.Thread):
 #     def __init__(self):
@@ -77,10 +78,18 @@ class GroupDetailView(DetailView):
         return context
 
 
+class GroupForm(forms.ModelForm):
+    class Meta:
+        model = Group
+        fields = ['group_name', 'group_image', 'group_description', 'members']
+    members = forms.ModelMultipleChoiceField(queryset=Profile.objects.all(),
+                                            widget=forms.CheckboxSelectMultiple())
+
+
 class GroupCreateView(LoginRequiredMixin, CreateView):
     model = Group
-    fields = ['group_name', 'group_image', 'group_description', 'members']
-
+    form_class = GroupForm
+    
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
@@ -88,7 +97,8 @@ class GroupCreateView(LoginRequiredMixin, CreateView):
 
 class GroupUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Group
-    fields = ['group_name', 'group_image', 'group_description', 'members']
+    form_class = GroupForm
+    # fields = ['group_name', 'group_image', 'group_description', 'members']
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
