@@ -5,7 +5,10 @@ from .views import (
     GroupDetailView,
     GroupCreateView,
     GroupUpdateView,
-    GroupDeleteView
+    GroupDeleteView,
+    PrefsDetailView,
+    PrefsCreateView,
+    PrefsUpdateView,
 )
 
 urlpatterns = [
@@ -16,5 +19,8 @@ urlpatterns = [
     path('group/<int:pk>/delete/', GroupDeleteView.as_view(), name='group-delete'),
     path('about/', views.about, name='match-about'),
     path('match/', views.match_all, name='match-all'),
-    path('match/group/<int:pk>/', views.match_group, name='match-group')
+    path('match/group/<int:pk>/', views.match_group, name='match-group'),
+    path('preferences/<int:pk>/', PrefsDetailView.as_view(), name='prefs-detail'),
+    path('preferences/new/', PrefsCreateView.as_view(), name='prefs-create'),
+    path('preferences/<int:pk>/update/', PrefsUpdateView.as_view(), name='prefs-update')
 ]

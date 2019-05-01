@@ -41,19 +41,28 @@
       {% endfor %}
     {% endif %}
   {% else %}
-  <div>
-    <div>
-      Meet new people
-    </div>
-    <div>
-      Do stuff
-    </div>
-    <div>
-      Do more stuff
-    </div>
-    <div>
-      I kinda like the twitter homepage. Maybe we can do something like that
-    </div>
-  </div>
+
+    <style>
+      html { 
+        background: url(https://upload.wikimedia.org/wikipedia/commons/f/f7/US_Navy_051105-F-5480T-005_An_F-14D_Tomcat_conducts_a_mission_over_the_Persian_Gulf-region.jpg) no-repeat center center fixed; 
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+      }
+    </style>
+
+      <div>
+        Meet new people
+      </div>
+      <div>
+        Do stuff
+      </div>
+      <div>
+        Do more stuff
+      </div>
+      <div>
+        I kinda like the twitter homepage. Maybe we can do something like that
+      </div>
   {% endif %}
 {% endblock content %}

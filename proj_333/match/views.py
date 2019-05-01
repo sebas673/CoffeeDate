@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from users.models import Profile
+from users.models import Profile, Prefs
 from django.contrib import messages
 import random
 from django.views.generic import (
@@ -13,6 +13,8 @@ from django.views.generic import (
 )
 from .models import Group, Pair
 from django import forms
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 
 # class Timer(threading.Thread):
 #     def __init__(self):
@@ -51,7 +53,6 @@ def home(request):
                 'groups': Group.objects.all().filter(members=user.Profile),
                 'pairs': Pair.objects.all().filter(pair_1=user.id) | Pair.objects.all().filter(pair_2=user.id)
             }
-            print('context')
         return render(request, 'match/home.html', context)
     else:
         return render(request, 'match/home.html')
@@ -82,14 +83,14 @@ class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ['group_name', 'group_image', 'group_description', 'members']
-    members = forms.ModelMultipleChoiceField(queryset=Profile.objects.all(),
-                                            widget=forms.CheckboxSelectMultiple())
+    members = forms.ModelMultipleChoiceField(queryset=Profile.objects.all(), widget=forms.CheckboxSelectMultiple())
 
 
 class GroupCreateView(LoginRequiredMixin, CreateView):
     model = Group
+    # fields = ['group_name', 'group_image', 'group_description', 'members']
     form_class = GroupForm
-    
+
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
@@ -122,7 +123,60 @@ class GroupDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 
+
+class PrefsForm(forms.ModelForm):
+
+    CHOICES = [(i + 1,'I am very creative') for i in range(5)]
+
+    class Meta:
+        model = Prefs
+        fields = ['pref1', 'pref2', 'pref3', 'pref4', 'pref5']
+
+    pref1 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
+    pref2 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
+    pref3 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
+    pref4 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
+    pref5 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
+
+
+class PrefsDetailView(DetailView):
+    model = Prefs
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['pairs'] = Pair.objects.filter(pair_group=self.object)
+    #     return context
+
+
+class PrefsCreateView(LoginRequiredMixin, CreateView):
+    model = Prefs
+    # fields = ['pref1', 'pref2', 'pref3', 'pref4', 'pref5']
+    form_class = PrefsForm
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
+
+class PrefsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Prefs
+    # fields = ['pref1', 'pref2', 'pref3', 'pref4', 'pref5']
+    form_class = PrefsForm
+    
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        prefs = self.get_object()
+        if self.request.user == prefs.user:
+            return True
+        return False
+
+
 # matches all the members
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def match_all(request):  
     is_group = False
     pk = -1
