@@ -20,8 +20,8 @@
           </div>
       </article>
       <br>
-      <h2>Your groups</h2>
-      {% for group in groups %}
+      <h2>Groups you're in</h2>
+      {% for group in groups_member %}
         <article class="media content-section">
           <img class="rounded-circle article-img" src="{{ group.group_image.url }}">
           <div class="media-body">
@@ -39,30 +39,30 @@
           {% endfor %}
         </article>
       {% endfor %}
+      <br>
+      <h2>Groups you admin </h2>
+      {% for group in groups_owner %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ group.group_image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{% url 'group-detail' group.id %}">{{ group.group_name }}</a>
+          </div>
+        </article>
+      {% endfor %}
     {% endif %}
   {% else %}
-
-    <style>
-      html { 
-        background: url(https://upload.wikimedia.org/wikipedia/commons/f/f7/US_Navy_051105-F-5480T-005_An_F-14D_Tomcat_conducts_a_mission_over_the_Persian_Gulf-region.jpg) no-repeat center center fixed; 
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-      }
-    </style>
-
-      <div>
-        Meet new people
-      </div>
-      <div>
-        Do stuff
-      </div>
-      <div>
-        Do more stuff
-      </div>
-      <div>
-        I kinda like the twitter homepage. Maybe we can do something like that
-      </div>
+    <div>
+      Meet new people
+    </div>
+    <div>
+      Do stuff
+    </div>
+    <div>
+      Do more stuff
+    </div>
+    <div>
+      I kinda like the twitter homepage. Maybe we can do something like that
+    </div>
   {% endif %}
 {% endblock content %}

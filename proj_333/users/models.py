@@ -24,7 +24,7 @@ class Prefs(models.Model):
     pref5 = models.IntegerField(default=3, validators=[MaxValueValidator(5), MinValueValidator(1)])
 
     def __str__(self):
-        return f'{self.user.Profile.first_name} Prefs'
+        return f'{self.user.first_name} {self.user.last_name}\'s Preferences'
 
     def get_absolute_url(self):
         return reverse('prefs-detail', kwargs={'pk': self.pk})
@@ -46,7 +46,8 @@ class Profile(models.Model):
     mate_personal_message = models.TextField(max_length=None, default="Hello!")
     mate_email = models.CharField(max_length=50, default="princeton@princeton.edu")
 
-
+    prefs_match = models.BooleanField(default=False)  # does the user want to be matched by preferences
+    prefs_created = models.BooleanField(default=False) # has this user created their preferences yet
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}'

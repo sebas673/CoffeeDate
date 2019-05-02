@@ -36,7 +36,8 @@ def profile(request):
             user_that_updated = request.user
             if user_that_updated.Profile.is_matched == True:
                 user_to_update = User.objects.all().filter(Profile__mate_ID=user_that_updated.id)
-                if user_to_update:
+                if user_to_update.exists():
+                    print(user_to_update)
                     user_to_update.Profile.mate_firstname = user_that_updated.first_name
                     user_to_update.Profile.mate_lastname = user_that_updated.last_name
                     user_to_update.Profile.mate_image = user_that_updated.Profile.image
@@ -56,8 +57,21 @@ def profile(request):
                     pair.pair_2_last = user_that_updated.last_name
                     pair.save()
 
-            messages.info(request, f'Your account has been updated!')
-            return redirect('profile')
+            
+
+            if user.Profile.prefs_match:
+
+                user.Profile.prefs_created = True
+
+                if user.Profile.prefs_created:
+                    messages.info(request, f'Update your preferences')
+                    return redirect('prefs-update')
+                else:
+                    messages.info(request, f'Finish creating up your profile')
+                    return redirect('prefs-create')
+            else:
+                messages.info(request, f'Your account has been updated!')
+                return redirect('profile')
 
     else:
         u_form = UserUpdateForm(instance=request.user)

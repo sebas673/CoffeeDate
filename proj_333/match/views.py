@@ -16,20 +16,6 @@ from django import forms
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 
-# class Timer(threading.Thread):
-#     def __init__(self):
-#         threading.Thread.__init__(self)
-#         self.event = threading.Event()
-
-#     def run(self):
-#         while not self.event.is_set():
-#             print('hello')
-#             num_of_days = 7
-#             self.event.wait(num_of_days * 24 * 3600)
-
-#     def stop(self):
-#         self.event.set()
-
 
 def home(request):
     if request.user.is_authenticated:
@@ -41,16 +27,9 @@ def home(request):
             user.Profile.save()
             return redirect('profile')
         else:
-
-            #
-            # group_delete = Group.objects.all().filter(group_name='the princeton white people club')
-            # pair_delete = Pair(pair_1='0', pair_2='0', pair_group=group_delete[0])
-            # pair_delete.save()
-            # print(pair_delete)
-            #
-
             context = {
-                'groups': Group.objects.all().filter(members=user.Profile),
+                'groups_member': Group.objects.all().filter(members=user.Profile).exclude(owner=user),
+                'groups_owner': Group.objects.all().filter(owner=user),
                 'pairs': Pair.objects.all().filter(pair_1=user.id) | Pair.objects.all().filter(pair_2=user.id)
             }
         return render(request, 'match/home.html', context)
@@ -62,6 +41,7 @@ def about(request):
     return render(request, 'match/about.html', {'title': 'About'})
 
 
+# We can use this is we want to see ALL of the groups
 # class GroupListView(ListView):
 #     model = Group
 #     user = self.User
@@ -88,8 +68,8 @@ class GroupForm(forms.ModelForm):
 
 class GroupCreateView(LoginRequiredMixin, CreateView):
     model = Group
-    # fields = ['group_name', 'group_image', 'group_description', 'members']
     form_class = GroupForm
+    # fields = ['group_name', 'group_image', 'group_description', 'members']
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -125,8 +105,7 @@ class GroupDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 class PrefsForm(forms.ModelForm):
-
-    CHOICES = [(i + 1,'I am very creative') for i in range(5)]
+    CHOICES=[(1,'Strongly Disagree'), (2,'Somewhat Disagree'), (3, 'Neutral'), (4, 'Somewhat Agree'), (5, 'Strongly Agree')]
 
     class Meta:
         model = Prefs
@@ -150,18 +129,18 @@ class PrefsDetailView(DetailView):
 
 class PrefsCreateView(LoginRequiredMixin, CreateView):
     model = Prefs
-    # fields = ['pref1', 'pref2', 'pref3', 'pref4', 'pref5']
     form_class = PrefsForm
+    # fields = ['pref1', 'pref2', 'pref3', 'pref4', 'pref5']
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user
+        form.instance.user = self.request.user
         return super().form_valid(form)
 
 
 class PrefsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Prefs
-    # fields = ['pref1', 'pref2', 'pref3', 'pref4', 'pref5']
     form_class = PrefsForm
+    # fields = ['pref1', 'pref2', 'pref3', 'pref4', 'pref5']
     
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -175,8 +154,8 @@ class PrefsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 # matches all the members
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+# @login_required
+# @user_passes_test(lambda u: u.is_superuser)
 def match_all(request):  
     is_group = False
     pk = -1
@@ -197,7 +176,6 @@ def match_group(request, pk):
         pairs = Pair.objects.all().filter(pair_group=group_in)
         for pair in pairs:
             pair.delete()
-
 
         is_group = True
 
