@@ -1,0 +1,56 @@
+{% extends "match/base.html" %}
+{% block content %}
+<!-- This will appear once you're signed in and don't have a match-->
+  {% if user.Profile.signed_in %}
+    {% if not user.Profile.is_matched %}
+      <h1>This is where can put the match of the week and other stuff that should appear on the homepage once you're
+      signed in. This 'find me a match' button will disappear when the user has a match</h1>
+      {% if not user.Profile.is_matched %}
+        <a class="btn btn-primary" href="{% url 'match-find' %}" role="button">Find me a match</a>
+      {% endif %}
+    {% else %}
+      <h2>Meet your match of the week!</h1>
+      <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ user.Profile.mate_image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2">{{ user.Profile.mate_firstname }} {{ user.Profile.mate_lastname }}</a>
+              <small class="text-muted">{{ user.Profile.mate_email }}</small>
+            </div>
+            <p class="article-content">{{ user.Profile.mate_personal_message }}</p>
+          </div>
+      </article>
+      <br>
+      <h2>Your groups</h2>
+      {% for group in groups %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ group.group_image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{% url 'group-detail' group.id %}">{{ group.group_name }}</a>
+          </div>
+          <p class="article-content">{{ group.group_description }}</p>
+        </article>
+      {% endfor %}
+    {% endif %}
+  <!-- This will appear when you're NOT signed in  -->
+  {% else %}
+
+  <header class="site-header">
+    <div class="cover-container">
+        <div class="cover-fluid">
+          <div class="col-xs-12">
+            <div class="cover panel panel-default">
+              <h1 class="cover-heading">TigerMingle</h1>
+              <p class="welcomeMessage">Want to meet new people on campus? Want to get to know people in your extracurricular groups better? Sign up for TigerMingle and we will make it happen! </p>
+              <a class="btn loginButton btn-lg active btn-block" href="{% url 'login' %}">Login</a>
+              <a class="btn registerButton btn-lg active btn-block" href="{% url 'register' %}">Register</a>
+              <br>
+              <a class="aboutSection" href="{% url 'match-about' %}">About</a> 
+
+            </div>
+          </div>
+        </div>
+    </div>
+  {% endif %}
+{% endblock content %}
