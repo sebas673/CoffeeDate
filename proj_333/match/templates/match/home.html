@@ -14,7 +14,7 @@
           <div class="media-body">
             <div class="article-metadata">
               <a class="mr-2">{{ user.Profile.mate_firstname }} {{ user.Profile.mate_lastname }}</a>
-              <small class="text-muted">{{ user.Profile.mate_email }}</small>
+              <a href = "mailto: {{ user.Profile.mate_email }}">{{ user.Profile.mate_email }}</a>
             </div>
             <p class="article-content">{{ user.Profile.mate_personal_message }}</p>
           </div>
