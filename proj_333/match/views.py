@@ -111,11 +111,17 @@ class PrefsForm(forms.ModelForm):
         model = Prefs
         fields = ['pref1', 'pref2', 'pref3', 'pref4', 'pref5']
 
-    pref1 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
-    pref2 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
-    pref3 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
-    pref4 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
-    pref5 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
+    q1 = 'This is question 1'
+    q2 = 'This is question 2' 
+    q3 = 'This is question 3' 
+    q4 = 'This is question 4' 
+    q5 = 'This is question 5'   
+
+    pref1 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q1)
+    pref2 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q2)
+    pref3 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q3)
+    pref4 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q4)
+    pref5 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q5)
 
 
 class PrefsDetailView(DetailView):

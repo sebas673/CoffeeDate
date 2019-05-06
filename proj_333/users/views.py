@@ -5,6 +5,7 @@ from uniauth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.models import User
 from match.models import Pair, Group
+from .models import Prefs
 
 
 def register(request):
@@ -37,7 +38,6 @@ def profile(request):
             if user_that_updated.Profile.is_matched == True:
                 user_to_update = User.objects.all().filter(Profile__mate_ID=user_that_updated.id)
                 if user_to_update.exists():
-                    print(user_to_update)
                     user_to_update.Profile.mate_firstname = user_that_updated.first_name
                     user_to_update.Profile.mate_lastname = user_that_updated.last_name
                     user_to_update.Profile.mate_image = user_that_updated.Profile.image
@@ -58,17 +58,21 @@ def profile(request):
                     pair.save()
 
             
-
+            # does the user want to be matched on preferences
             if user.Profile.prefs_match:
 
-                user.Profile.prefs_created = True
-
+                # has already set up preferences
                 if user.Profile.prefs_created:
                     messages.info(request, f'Update your preferences')
-                    return redirect('prefs-update')
+                    pref = Prefs.objects.get(user=user)
+                    return redirect('prefs-update', pref.id)
+                # first time setting up preferences
                 else:
                     messages.info(request, f'Finish creating up your profile')
+                    user.Profile.prefs_created = True
+                    user.Profile.save()
                     return redirect('prefs-create')
+            # user just wants a random matching
             else:
                 messages.info(request, f'Your account has been updated!')
                 return redirect('profile')
