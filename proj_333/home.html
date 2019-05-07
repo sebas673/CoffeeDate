@@ -1,0 +1,70 @@
+{% extends "match/base.html" %}
+{% block content %}
+<!-- This will appear once you're signed in and don't have a match-->
+  {% if user.is_authenticated %}
+    <!-- {% if not user.Profile.is_matched %} -->
+    <div class="center-container"> 
+        <div class = "center-panel">
+            <h1 class="NotMatchedMessage">Welcome to TigerMingle! <hr> You're on your way to meeting cool new friends. Click the button below so we can find you a match. </h1>
+                <br>
+                <br>
+                <a class="btn findMatchButton" href="#" role="button">Find Me a Match</a>
+        </div>
+      </div>
+      
+      <!-- {% if not user.Profile.is_matched %} -->
+         <!-- Remember to add the link for the Find me a match button -->
+        
+      <!-- {% endif %} -->
+    <!-- {% else %} -->
+      <h2>Meet your match of the week!</h1>
+      <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ user.Profile.mate_image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2">{{ user.Profile.mate_firstname }} {{ user.Profile.mate_lastname }}</a>
+              <small class="text-muted">{{ user.Profile.mate_email }}</small>
+            </div>
+            <p class="article-content">{{ user.Profile.mate_personal_message }}</p>
+          </div>
+      </article>
+      <br>
+      <h2>Your groups</h2>
+      {% for group in groups %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ group.group_image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{% url 'group-detail' group.id %}">{{ group.group_name }}</a>
+          </div>
+          <p class="article-content">{{ group.group_description }}</p>
+        </article>
+      {% endfor %}
+    <!-- {% endif %} -->
+  <!-- This will appear when you're NOT signed in  -->
+  {% else %}
+      
+    <div class="center-container"> 
+      <div class = "center-panel">
+        <h1 class="cover-heading">TigerMingle</h1>
+        <p class="welcomeMessage">Meet More People</p>
+        <a class="aboutButton btn btn-lg active btn-block" href="{% url 'match-about' %}">About</a> 
+        <a class="aboutButton btn btn-lg active btn-block" href="{% url 'match-about' %}">FAQ</a> 
+      </div>
+    </div>
+    <div class="bottom-left-page">
+        <table>
+          <tr>
+            <th>
+                <a class="btn loginButton btn-lg active btn-block" href="{% url 'login' %}">Login</a>
+            </th>
+            <th>
+            </th>
+            <th>
+                <a class="btn registerButton btn-lg active btn-block" href="{% url 'register' %}">Register</a>
+            </th>
+          </tr>
+        </table>
+    </div>
+  {% endif %}
+{% endblock content %}
