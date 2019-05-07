@@ -1,0 +1,265 @@
+
+
+h1, h2, h3, h4, h5, h6 {
+  color: #2e2d2d;
+  font-family: 'Oswald', sans-serif;
+}
+
+ul {
+  margin: 0;
+}
+
+/* Navigation bar on website */
+.navbar {
+  overflow: hidden;
+  border-radius: 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 14px;
+  color: #ffffff;
+  border-bottom-color: 3px solid grey; 
+}
+
+.bg-steel {
+  background-color: rgba(163, 160, 157, 0.9);
+}
+
+.site-header .navbar-nav .nav-link {
+  color: #ffffff;
+}
+
+.site-header .navbar-nav .nav-item .nav-link:hover {
+  color: #ffffff;
+}
+
+.site-header .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  border-bottom: 2px solid orange;
+}
+
+/* Logo of the website */
+.logo {
+  font-size: 163%;
+  font-weight: 800;
+  font-family: 'Dosis', sans-serif;
+}
+
+html {
+  background: url(/static/match/hero-tiger-fall-leaves.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+  height: 100%;
+  padding-top: 70px;
+  background: transparent;
+  font-size: 120%;
+  text-align: center;
+}
+
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+.article-title {
+  color: #444444;
+}
+
+a.article-title:hover {
+  color: #428bca;
+  text-decoration: none;
+}
+
+.article-content {
+  white-space: pre-line;
+}
+
+.article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+}
+
+.article-metadata {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3
+}
+
+.article-metadata a:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.article-svg {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.account-heading {
+  font-size: 2.5rem;
+}
+
+/* Homepage for user who has been authenticated but does not have a match*/
+
+.NotMatchedMessage {
+  color: white; 
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 20pt;
+  background: rgba(253, 253, 253, 0.281);
+  box-shadow: 0 30px 40px rgba(0,0,0,.1);
+  width: 65%;
+  margin: auto;
+  padding: 1em 1em;
+  box-shadow: 0 0 20px rgb(0, 0, 0);
+  border-radius: 20px;
+  border-color: rgb(255, 255, 255);
+}
+
+.findMatchButton {
+  font-size: 120%;
+  font-weight: 900;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  width: 40%;
+  display: inline-block;
+  vertical-align:bottom;
+  border-color: white; 
+  border-radius: 30px;
+  line-height: 40px;
+}
+
+.findMatchButton:hover {
+  color: rgb(15, 15, 15);
+  background: rgb(219, 210, 210);
+  border-color: rgb(158, 49, 49); 
+  border-width: 2px;
+}
+
+/* Homepage Heading/Welcome message/About Button*/
+.center-container {
+  position: relative;
+}
+
+.center-panel {
+  position: absolute;
+  margin-left:auto;
+  margin-right:auto;
+  width:100%;
+  text-align: center;
+  padding-top: 170px;
+}
+
+.cover-heading {
+  color: white;
+  font-size: 700%;
+  text-align: center;
+  font-family: 'Dosis', sans-serif;
+  display: inline-block;
+}
+
+.welcomeMessage {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 200%;
+  color: white;
+  text-align: center;
+}
+
+.aboutButton{
+  font-size: 110%;
+  color: white;
+  width: 17%;
+  display: inline-block;
+  vertical-align:bottom;
+  font-style: italic;
+  background-color: rgb(255, 148, 8);
+  border-color: white; 
+  border-radius: 30px; 
+   /* border-color: white; 
+  border-radius: 30px; */
+  
+}
+
+.aboutButton:hover {
+  font-size: 110%;
+  color: grey;
+  width: 17%;
+  display: inline-block;
+  vertical-align:bottom;
+  font-style: italic;
+  border-color: white; 
+  border-radius: 30px; 
+  
+}
+/* Login and Register Buttons on Homepage */
+
+/* position of the login and regiester buttons*/
+.bottom-left-page {
+  position: fixed;
+  width: 20%;
+  bottom: 70px;
+  margin: auto;
+} 
+
+.loginButton {
+  color: rgb(255, 255, 255);
+  opacity: 0.7;
+  font-size: 30px;
+  border-style: solid;
+  border-color: rgb(255, 255, 255);
+  border-radius: 25px;
+  border-width: 2px;
+  line-height: 50px;
+  width: 200px;
+  font-family: Tahoma, sans-serif;
+  padding: 2pt;
+}
+.loginButton:hover {
+  background-color: rgb(49, 49, 49); /* Green */
+  color: rgb(255, 255, 255);
+  opacity: 0.7;
+  padding: 2pt;
+}
+
+.registerButton {
+  color: rgb(255, 255, 255);
+  opacity: 0.7;
+  font-size: 30px;
+  border-style: solid;
+  border-color: rgb(255, 255, 255);
+  border-radius: 25px;
+  border-width: 2px;
+  line-height: 50px;
+  width: 200px;
+  font-family: Tahoma, sans-serif;
+  padding: 2pt;
+}
+.registerButton:hover {
+  background-color: rgb(49, 49, 49); /* Green */
+  color: white;
+  opacity: 0.7;
+  padding: 2pt;
+}
