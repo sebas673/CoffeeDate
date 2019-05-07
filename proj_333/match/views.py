@@ -15,9 +15,8 @@ from .models import Group, Pair
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
-
-
-from itertools import permutations 
+from itertools import permutations
+import numpy as np
 
 
 def home(request):
@@ -114,11 +113,11 @@ class PrefsForm(forms.ModelForm):
         model = Prefs
         fields = ['pref1', 'pref2', 'pref3', 'pref4', 'pref5']
 
-    q1 = 'This is question 1'
-    q2 = 'This is question 2' 
-    q3 = 'This is question 3' 
-    q4 = 'This is question 4' 
-    q5 = 'This is question 5'   
+    q1 = 'You often spend time exploring unrealistic yet intriguing ideas.'
+    q2 = 'You often think about what you should have said in a conversation long after it has taken place.' 
+    q3 = 'You enjoy vibrant social events with lots of people.' 
+    q4 = 'I would never cheat on my taxes.' 
+    q5 = 'I believe that there is no absolute right and wrong.'   
 
     pref1 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q1)
     pref2 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q2)

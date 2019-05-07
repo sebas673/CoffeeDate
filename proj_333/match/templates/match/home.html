@@ -2,32 +2,46 @@
 {% block content %}
   {% if user.Profile.signed_in %}
     {% if not user.Profile.is_matched %}
-      <h1>This is where can put the match of the week and other stuff that should appear on the homepage once you're
-      signed in. This 'find me a match' button will disappear when the user has a match</h1>
+    
+      
       {% if not user.Profile.is_matched %}
-        <a class="btn btn-primary" href="{% url 'match-all' %}" role="button">Find me a match</a>
+      <div class="center-container"> 
+          <div class = "center-panel">
+              <h1 class="NotMatchedMessage">Welcome to TigerMingle! <hr> You're on your way to meeting cool new friends. Click the button below so we can find you a match. </h1>
+                <br>
+                <br>
+                <a class="btn notMatchedButton" href="{% url 'match-all' %}" role="button">Start Mingling</a>
+          </div>
+      </div>
       {% endif %}
     {% else %}
-      <h2>You're match from around campus</h1>
-      <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ user.Profile.mate_image.url }}">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2">{{ user.Profile.mate_firstname }} {{ user.Profile.mate_lastname }}</a>
-              <a href = "mailto: {{ user.Profile.mate_email }}">{{ user.Profile.mate_email }}</a>
-            </div>
-            <p class="article-content">{{ user.Profile.mate_personal_message }}</p>
-          </div>
-      </article>
-      <br>
-      <h2>Groups you're in</h2>
+      
+        <div class= "form-center-container">
+          <div class="form-center-panel">
+            <h2 class="whiteText centeredText">Your Princeton-Wide Match Of the Week </h2>
+            <div class = "matchesDisplay"> 
+              <article class="media">
+                    <br>
+                  <img class="rounded-circle article-img" src="{{ user.Profile.mate_image.url }}">
+                  <div class="media-body">
+                    <div class="article-metadata">
+                      <a class="mr-2">{{ user.Profile.mate_firstname }} {{ user.Profile.mate_lastname }}</a>
+                      <a class= "hyperText" href = "mailto: {{ user.Profile.mate_email }}">{{ user.Profile.mate_email }}</a>
+                    </div>
+                    <p class="article-content">{{ user.Profile.mate_personal_message }}</p>
+                  </div>
+              </article>
+            </div>   
+            <br>
+      <h2 class="whiteText centeredText">Groups you're in</h2>
       {% for group in groups_member %}
-        <article class="media content-section">
+        <article class="media matchesDisplay">
           <img class="rounded-circle article-img" src="{{ group.group_image.url }}">
           <div class="media-body">
             <div class="article-metadata">
               <a class="mr-2" href="{% url 'group-detail' group.id %}">{{ group.group_name }}</a>
           </div>
+          <p class="article-content">{{ group.group_description }}</p>
           {% for pair in pairs %}
             {% if pair.pair_group == group %}
               {% if pair.pair_1 == user.id %}
@@ -40,29 +54,43 @@
         </article>
       {% endfor %}
       <br>
-      <h2>Groups you admin </h2>
+      <h2 class="whiteText centeredText">Groups you admin </h2>
       {% for group in groups_owner %}
-        <article class="media content-section">
+        <article class="media matchesDisplay">
           <img class="rounded-circle article-img" src="{{ group.group_image.url }}">
           <div class="media-body">
             <div class="article-metadata">
               <a class="mr-2" href="{% url 'group-detail' group.id %}">{{ group.group_name }}</a>
           </div>
+          <p class="article-content">{{ group.group_description }}</p>
         </article>
       {% endfor %}
+
     {% endif %}
+  </div>
+</div>
   {% else %}
-    <div>
-      Meet new people
+    <div class="center-container"> 
+      <div class = "center-panel">
+        <h1 class="cover-heading">TigerMingle</h1>
+        <p class="welcomeMessage">Meet More People</p>
+        <a class="aboutButton btn btn-lg active btn-block" href="{% url 'match-about' %}">About</a> 
+        <a class="aboutButton btn btn-lg active btn-block" href="{% url 'match-about' %}">FAQ</a> 
+      </div>
     </div>
-    <div>
-      Do stuff
-    </div>
-    <div>
-      Do more stuff
-    </div>
-    <div>
-      I kinda like the twitter homepage. Maybe we can do something like that
+    <div class="bottom-left-page">
+        <table>
+          <tr>
+            <th>
+                <a class="btn loginButton btn-lg active btn-block" href="{% url 'login' %}">Login</a>
+            </th>
+            <th>
+            </th>
+            <th>
+                <a class="btn registerButton btn-lg active btn-block" href="{% url 'register' %}">Register</a>
+            </th>
+          </tr>
+        </table>
     </div>
   {% endif %}
 {% endblock content %}

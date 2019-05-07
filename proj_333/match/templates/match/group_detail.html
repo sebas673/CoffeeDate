@@ -1,10 +1,12 @@
 {% extends "match/base.html" %}
 {% block content %}
-    <article class="media content-section">
+<div class="form-center-container">
+    <div class="form-center-panel">
+    <article class="media">
           <img class="rounded-circle article-img" src="{{ object.group_image.url }}">
           <div class="media-body">
             <div class="article-metadata">
-              <h3 class='article-title'>{{ object.group_name }}</h3>
+              <h3 class='article-title whiteText'>{{ object.group_name }}</h3>
                 {% if object.owner == user %}
                     <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'group-update' object.id %}">Update</a>
                     <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'group-delete' object.id %}">Delete</a>
@@ -12,10 +14,23 @@
                 {% endif %}
           </div>
           <p class="article-content">{{ object.group_description }}</p>
-    </article>
+
+    <div class = "matchesDisplay"> 
     {% if object.owner == user %}
       {% for pair in pairs %}
-        <h4>{{ pair.pair_1_first }} {{ pair.pair_1_last }} is matched with {{ pair.pair_2_first }} {{ pair.pair_2_last }}</h4>
+        <h4 class="whiteText">{{ pair.pair_1_first }} {{ pair.pair_1_last }} is matched with {{ pair.pair_2_first }} {{ pair.pair_2_last }}</h4>
+      {% endfor %}
+    {% else %}
+      {% for pair in pairs %}
+        {% if pair.pair_1 == user.id %}
+        <p class="article-content whiteText">You're matched with: {{ pair.pair_2_first }}</p>
+        {% else %}
+        <p class="article-content whiteText">You're matched with: {{ pair.pair_1_first }}</p>
+        {% endif %}
       {% endfor %}
     {% endif %}
+    </div>
+    </article>
+    </div>
+    </div>
 {% endblock content %}

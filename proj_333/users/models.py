@@ -16,7 +16,7 @@ class IntegerRangeField(models.IntegerField):
 
 
 class Prefs(models.Model):
-    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, null=True)
+    user = models.OneToOneField(get_user_model(), related_name='Prefs', on_delete=models.CASCADE, null=True)
     pref1 = models.IntegerField(default=3, validators=[MaxValueValidator(5), MinValueValidator(1)])
     pref2 = models.IntegerField(default=3, validators=[MaxValueValidator(5), MinValueValidator(1)])
     pref3 = models.IntegerField(default=3, validators=[MaxValueValidator(5), MinValueValidator(1)])

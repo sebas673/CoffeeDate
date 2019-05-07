@@ -36,8 +36,9 @@ def profile(request):
             # updates the fields of the matched mate as well
             user_that_updated = request.user
             if user_that_updated.Profile.is_matched == True:
-                user_to_update = User.objects.all().filter(Profile__mate_ID=user_that_updated.id)
-                if user_to_update.exists():
+                user_to_update = User.objects.get(Profile__mate_ID=user_that_updated.id)
+                if user_to_update:
+                    print("FIX ME view in users line 41")
                     user_to_update.Profile.mate_firstname = user_that_updated.first_name
                     user_to_update.Profile.mate_lastname = user_that_updated.last_name
                     user_to_update.Profile.mate_image = user_that_updated.Profile.image
@@ -63,18 +64,18 @@ def profile(request):
 
                 # has already set up preferences
                 if user.Profile.prefs_created:
-                    messages.info(request, f'Update your preferences')
+                    messages.info(request, f'Update Your Preferences!')
                     pref = Prefs.objects.get(user=user)
                     return redirect('prefs-update', pref.id)
                 # first time setting up preferences
                 else:
-                    messages.info(request, f'Finish creating up your profile')
+                    messages.info(request, f'Finish Creating Your Profile!')
                     user.Profile.prefs_created = True
                     user.Profile.save()
                     return redirect('prefs-create')
             # user just wants a random matching
             else:
-                messages.info(request, f'Your account has been updated!')
+                messages.info(request, f'Your Account Has Been Updated!')
                 return redirect('profile')
 
     else:
