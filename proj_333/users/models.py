@@ -22,6 +22,11 @@ class Prefs(models.Model):
     pref3 = models.IntegerField(default=3, validators=[MaxValueValidator(5), MinValueValidator(1)])
     pref4 = models.IntegerField(default=3, validators=[MaxValueValidator(5), MinValueValidator(1)])
     pref5 = models.IntegerField(default=3, validators=[MaxValueValidator(5), MinValueValidator(1)])
+    pref6 = models.IntegerField(default=3, validators=[MaxValueValidator(5), MinValueValidator(1)])
+    pref7 = models.IntegerField(default=3, validators=[MaxValueValidator(5), MinValueValidator(1)])
+    pref8 = models.IntegerField(default=3, validators=[MaxValueValidator(5), MinValueValidator(1)])
+    pref9 = models.IntegerField(default=3, validators=[MaxValueValidator(5), MinValueValidator(1)])
+    pref10 = models.IntegerField(default=3, validators=[MaxValueValidator(5), MinValueValidator(1)])
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}\'s Preferences'

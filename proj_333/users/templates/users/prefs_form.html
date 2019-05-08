@@ -3,9 +3,19 @@
 {% block content %}
     <div class="form-center-container">
         <div class="form-center-panel">
+            
             <form method="POST">
                 {% csrf_token %}
-                <legend class="border-bottom mb-4 centeredText">Preferences</legend>
+                <!-- <legend class="border-bottom mb-4 centeredText">Preferences</legend>
+                    <label for=pref1>You often spend time exploring unrealistic yet intriguing ideas.</label>
+                    <div class ="verticalCenter-panel">
+                        <input id = "pref1" class = "stronglyDisagree" type="button" name="pref1" value="1">
+                        <input id = "pref2" class = "disagree" type="button" name="pref2" value="2">
+                        <input id = "pref3" class = "neutral" type="button" name="pref3" value="3">
+                        <input id = "pref4" class = "agree" type="button" name="pref4" value="4">
+                        <input id = "pref5" class = "stronglyAgree" type="button" name="pref5" value="5">
+                    </div>
+                    -->
                 {{ form|crispy }}
                 <div class="form-group">
                     <button class="btn btn-outline-info" type="submit">Submit</button>

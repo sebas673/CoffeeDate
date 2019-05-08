@@ -28,5 +28,5 @@ class ProfileUpdateForm(forms.ModelForm):
         fields = ['image', 'personal_message', 'prefs_match']
 
         labels = {
-            "prefs_match": "Do you want a personalized matching?"
+            "prefs_match": "Do you want a preference-based matching?"
         }

@@ -1,4 +1,20 @@
 {% extends "match/base.html" %}
 {% block content %}
-    <h2>pref stuff goes here</h2>
+    {% if object.user == user %}
+        {% for pref in prefs %}
+
+            <div class = "matchesDisplay">
+                <h2>You often spend time exploring unrealistic yet intriguing ideas: {{pref.pref1}}</h2>
+                <h2>You often think about what you should have said in a conversation long after it has taken place: {{pref.pref2}}</h2>
+                <h2>You enjoy vibrant social events with lots of people: {{pref.pref3}}</h2>
+                <h2>I would never cheat on my taxes: {{pref.pref4}}</h2>
+                <h2>You are more of a detail-oriented than a big picture person: {{pref.pref5}}</h2>
+                <h2>You have a careful and methodical approach to life: {{pref.pref6}}</h2>
+                <h2>In your opinion, it is sometimes OK to step on others to get ahead in life: {{pref.pref7}}</h2>
+                <h2>You usually lose interest in a discussion when it gets philosophical: {{pref.pref8}}</h2>
+                <h2>You feel more drawn to places with a bustling and busy atmosphere than to more quiet and intimate ones: {{pref.pref9}}</h2>
+                <h2>I handle tasks methodically: {{pref.pref10}}</h2>
+            </div>
+        {% endfor %}
+    {% endif %}
 {% endblock content %}

@@ -50,12 +50,18 @@ def profile(request):
                 for pair in pairs:
                     pair.pair_1_first = user_that_updated.first_name
                     pair.pair_1_last = user_that_updated.last_name
+                    pair.pair1_email = user_that_updated.email
+                    pair.pair1_image = user_that_updated.Profile.image
+                    pair1_pMessage = user_that_updated.Profile.personal_message
                     pair.save()
 
                 pairs = Pair.objects.all().filter(pair_2=user_that_updated.id)
                 for pair in pairs:
                     pair.pair_2_first = user_that_updated.first_name
                     pair.pair_2_last = user_that_updated.last_name
+                    pair.pair2_email = user_that_updated.email
+                    pair.pair2_image = user_that_updated.Profile.image
+                    pair2_pMessage = user_that_updated.Profile.personal_message
                     pair.save()
 
             

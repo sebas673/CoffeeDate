@@ -1,4 +1,86 @@
 {% extends "match/base.html" %}
 {% block content %}
-    <h1>Some bs about our cos 333 project. We don't have to keep it, but I think it might give us those extra points we're looking for </h1>
+{% if not user.is_authenticated %}
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+            <a class="navbar-brand mr-4 logo" href="{% url 'match-home' %}">TigerMingle</a>
+        </div>
+    </nav>
+    {% endif %}
+    <div class="about-container">
+      <div class="about-panel">
+          <div class="about-page-title">
+              About TigerMingle
+          </div>
+          <hr>
+          <br>
+        <table>
+          <tr>
+            <th class="hook">
+                <h3 class= "hook-text"> In a campus with 
+                    <br>
+                    <br>
+                    8,105 Students,
+                    <br>
+                    <br>
+                    300 Student Groups,
+                    <br>
+                    <br>
+                     37 Majors,
+                     <br>
+                     <br>
+                    and 1 Orange bubble,
+                    <br>
+                    <br>
+                    it’s time to meet more people.
+                  </h3>
+            </th>
+            <th class="aboutSection">
+                <div>
+                    <!-- <p class="about-section-title"> Why TigerMingle? </p> -->
+                    <p>Princeton is a place brimming with interesting people with diverse interests and a good conversation is just around the corner. Even so, many people profess to lack meaningful connections with their peers. The campus often becomes divided into smaller groups and chance encounters with ridiculously cool new people are far and few in between. </p>
+                    <br>
+                    <p>TigerMingle was created to change that: it is an app for people who want to sit with a fellow student for a cup of coffee or maybe a meal and have a good conversation. Maybe this app will facilitate lasting friendships, or it will simply create meaningful hour-long connections. The hope is that people from diverse backgrounds will get to meet each other on a meeting that otherwise would never happen. </p>
+                    
+                </div>
+            </th>
+          </tr>
+        </table>
+       <br>
+       <div class="about-us">
+          <p class="about-page-title">Created By
+              <hr>
+              Karan Arora '19
+              <br>
+              Bhaamati Borkhetaria '20
+              <br>
+              Sebastian Guzman '21
+          </p>
+       </div>
+       <br>
+       <div class="about-us">
+          <p class="about-page-title">Acknowledgments
+              <hr>
+              COS333 Spring 2019 Instructor
+              <br>
+               <b>Professor Brian Kernighan</b>
+              <br>
+              <br>
+              COS333 Spring 2019 Advisor
+              <br>
+              <b>Jace Lu</b>
+          </p>
+       </div>
+       <br>
+       <div class="about-us">
+          <p class="about-page-title">Credits
+              <hr>
+              Background Image from Princeton University Website 
+              <br>
+              CAS-Django App, Lance Goodridge 
+          </p>
+       </div>
+      </div>
+      
+    </div>
 {% endblock content %}

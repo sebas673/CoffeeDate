@@ -30,7 +30,7 @@ ul {
 
 
 .bg-steel {
-  background-color: rgba(163, 160, 157, 0.9);
+  background-color: rgba(255, 143, 0, 0.9);
 }
 
 .site-header .navbar-nav .nav-link {
@@ -143,11 +143,7 @@ a.article-title:hover {
   padding-top: 6%;
 }
 .form-center-panel {
-  /* box-shadow: 0 0 20px rgb(255, 145, 0); */
   border-radius: 20px;
-  border-width: 5px; 
-  border-style: solid;
-  border-color: orange;
   position: absolute;
   margin-left:15%;
   width: 70%;
@@ -187,11 +183,12 @@ a.article-title:hover {
 .matchesDisplay {
   color: white; 
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 15pt;
-  background: rgba(253, 253, 253, 0.281);
+  font-size: 10pt;
+  background: rgba(253, 253, 253, 0.1);
   box-shadow: 0 30px 40px rgba(0,0,0,.1);
   width: 65%;
   margin: auto;
+  margin-top: 5px;
   padding: 1em 1em;
   box-shadow: 0 0 20px rgb(0, 0, 0);
   border-radius: 20px;
@@ -333,4 +330,190 @@ a.article-title:hover {
   background-color: rgb(49, 49, 49); /* Green */
   color: white;
   opacity: 0.7;
+}
+
+/* Preferences buttons */
+
+.stronglyDisagree {
+  background-color: rgba(255, 255, 255, 0.8);
+  display:inline-block;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 3px solid rgb(177, 0, 0);
+  margin: 5px;
+}
+.stronglyDisagree:hover {
+  background-color: rgb(177, 0, 0);
+}
+
+.disagree {
+  background-color: rgba(255, 255, 255, 0.8);
+  display:inline-block;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 3px solid orange;
+  margin: 5px;
+}
+.disagree:hover {
+  background-color: orange;
+}
+
+.neutral {
+  background-color: rgba(255, 255, 255, 0.8);
+  display:inline-block;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  border: 3px solid rgb(216, 212, 3);
+  margin: 5px;
+}
+.neutral:hover {
+  background-color: rgb(216, 212, 3);
+}
+
+.agree {
+  background-color: rgba(255, 255, 255, 0.8);
+  display:inline-block;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 3px solid rgb(0, 97, 0);
+  margin: 5px;
+}
+.agree:hover {
+  background-color: rgb(0, 97, 0);
+}
+
+.stronglyAgree {
+  background-color: rgba(255, 255, 255, 0.8);
+  display:inline-block;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 3px solid rgb(0, 0, 175);
+  margin: 5px;
+}
+.stronglyAgree:hover {
+  background-color: rgb(0, 0, 175);
+}
+
+.prefSpecTag {
+  color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  display: inline-block;
+}
+
+
+
+
+.verticalCenter-panel {
+  flex: 0 0 100%;
+    margin: 0 15px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: flex-start;
+  /* position: absolute; */
+  /* vertical-align:"middle"; */
+
+  
+}
+
+/* About Page Stylings */
+
+.about-page-title {
+  font-family: 'Dosis', sans-serif;
+  font-weight: 800;
+  font-size: 200%;
+  color: white;
+  text-align: center;
+}
+
+.about-container {
+  position: relative;
+}
+
+.about-panel{
+  position: absolute;
+  margin-left:15%;
+  width: 70%;
+  padding: 20px;
+  color: white; 
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background: rgba(75, 75, 75, 0.5);
+  box-shadow: 0 30px 40px rgba(0,0,0,.1);
+  padding: 1em 1em;
+  box-shadow: 0 0 20px rgb(0, 0, 0);
+  border-radius: 20px;
+  border-color: rgb(255, 255, 255);
+}
+
+.hook{
+  right: 0;
+  width: 40%;
+  text-align: center;
+}
+
+.hook-text {
+  color: white;
+  font-size: 130%;
+  font-family: "Gugi";
+  border-radius: 25px;
+  border-width: 2px;
+  background-color: rgb(255, 145, 0, 0.8);
+  padding: 1em 1em;
+}
+.aboutSection{
+  color: white;
+  left: 0;
+  width: 70%;
+  text-align: left;
+  font-size: 90%;
+  font-weight: 200;
+  padding: 1em 1em;
+}
+
+.about-section-title {
+text-align: center;
+color: white;
+}
+
+.about-us {
+  text-align: center;
+}
+
+/* FAQ Page */
+
+.faq-container {
+  position: relative;
+}
+
+.faq-panel{
+  position: absolute;
+  width: 100%;
+  color: white; 
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background: rgba(75, 75, 75, 0.5);
+  box-shadow: 0 30px 40px rgba(0,0,0,.1);
+  margin: 10px 10px 10px 10px;
+  padding: 1em 1em;
+  box-shadow: 0 0 20px rgb(0, 0, 0);
+  border-radius: 20px;
+  border-color: rgb(255, 255, 255);
+}
+
+.faq-align {
+  text-align: left;
+}
+
+.faq-section-title {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 120%;
+  font-weight: 700;
+  color: white;
+  text-align: left;
+
 }

@@ -27,6 +27,12 @@ class Pair(models.Model):
     pair_2 = models.PositiveIntegerField(default=0)
     pair_2_first = models.CharField(max_length=50, null=True)
     pair_2_last = models.CharField(max_length=50, null=True)
+    pair1_email = models.CharField(max_length=50, default="princeton@princeton.edu")
+    pair2_email = models.CharField(max_length=50, default="princeton@princeton.edu")
+    pair1_image = models.ImageField(default='default.jpg', upload_to='group_pics')
+    pair2_image= models.ImageField(default='default.jpg', upload_to='group_pics')
+    pair1_pMessage = models.TextField(max_length=None, default="Hello!")
+    pair2_pMessage = models.TextField(max_length=None, default="Hello!")
 
     pair_group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
 

@@ -18,6 +18,7 @@ urlpatterns = [
     path('group/<int:pk>/update/', GroupUpdateView.as_view(), name='group-update'),
     path('group/<int:pk>/delete/', GroupDeleteView.as_view(), name='group-delete'),
     path('about/', views.about, name='match-about'),
+    path('faq/', views.faq, name='match-faq'),
     path('match/', views.match_all, name='match-all'),
     path('match/group/<int:pk>/', views.match_group, name='match-group'),
     path('preferences/<int:pk>/', PrefsDetailView.as_view(), name='prefs-detail'),

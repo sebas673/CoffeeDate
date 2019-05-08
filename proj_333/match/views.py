@@ -42,6 +42,8 @@ def home(request):
 def about(request):
     return render(request, 'match/about.html', {'title': 'About'})
 
+def faq(request):
+    return render(request, 'match/faq.html', {'title': 'Frequently Asked Questions'})
 
 # We can use this is we want to see ALL of the groups
 # class GroupListView(ListView):
@@ -111,28 +113,38 @@ class PrefsForm(forms.ModelForm):
 
     class Meta:
         model = Prefs
-        fields = ['pref1', 'pref2', 'pref3', 'pref4', 'pref5']
+        fields = ['pref1', 'pref2', 'pref3', 'pref4', 'pref5', 'pref6', 'pref7', 'pref8', 'pref9', 'pref10']
 
     q1 = 'You often spend time exploring unrealistic yet intriguing ideas.'
     q2 = 'You often think about what you should have said in a conversation long after it has taken place.' 
     q3 = 'You enjoy vibrant social events with lots of people.' 
     q4 = 'I would never cheat on my taxes.' 
-    q5 = 'I believe that there is no absolute right and wrong.'   
+    q5 = 'You are more of a detail-oriented than a big picture person.' 
+    q6 = 'You have a careful and methodical approach to life.'
+    q7 = 'In your opinion, it is sometimes OK to step on others to get ahead in life.'
+    q8 = 'You usually lose interest in a discussion when it gets philosophical.'
+    q9 = 'You feel more drawn to places with a bustling and busy atmosphere than to more quiet and intimate ones.'
+    q10 = 'I handle tasks methodically.'  
 
     pref1 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q1)
     pref2 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q2)
     pref3 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q3)
     pref4 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q4)
     pref5 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q5)
+    pref6 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q6)
+    pref7 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q7)
+    pref8 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q8)
+    pref9 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q9)
+    pref10 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label=q10)
 
 
 class PrefsDetailView(DetailView):
     model = Prefs
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['pairs'] = Pair.objects.filter(pair_group=self.object)
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['prefs'] = Prefs.objects.filter(user=self.request.user)
+        return context
 
 
 class PrefsCreateView(LoginRequiredMixin, CreateView):
@@ -164,7 +176,13 @@ class PrefsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 # matches all the members
 # @login_required
 # @user_passes_test(lambda u: u.is_superuser)
-def match_all(request):  
+def match_all(request):
+
+    # reset all users
+    for user in User.objects.all():
+        user.Profile.is_matched = False
+#---------------------------------------------------------------------------------------------------------------------
+
     users = [user for user in User.objects.all().filter(Profile__is_matched='False')] # Profile needs to change to Prefs?
     matching = full_match(users)
     for match in matching:
@@ -178,19 +196,35 @@ def match_group(request, pk):
     group_in = Group.objects.get(id=pk)
     if request.user == group_in.owner:
 
+        # add admin to the group
+        group_in.members.add(request.user.Profile)
+        print('here')
         # will delete all the old Pairs when running a new matching
         pairs = Pair.objects.all().filter(pair_group=group_in)
         for pair in pairs:
+            print('delete here')
             pair.delete()
 
         member_list = [Group.members.all() for Group in Group.objects.all().filter(id=pk)]
         group_users = [Profile.user for Profile in member_list[0]]
 
+        if len(group_users) == 1:
+            messages.warning(request, f'You\'re the only person in this group. A matching cannot be run on one person.')
+            return redirect('group-detail', pk)
+
+
+        print('group users')
+        print(group_users)
+
         matching = full_match(group_users)
         for match in matching:
+            print('make here')
             user1, user2 = User.objects.get(id=match[0].id), User.objects.get(id=match[1].id)
             pair = Pair(pair_1=user1.id, pair_1_first=user1.first_name, pair_1_last=user1.last_name,
-                        pair_2=user2.id, pair_2_first=user2.first_name, pair_2_last=user2.last_name, pair_group=group_in)
+                        pair_2=user2.id, pair_2_first=user2.first_name, pair_2_last=user2.last_name,
+                        pair_group=group_in, pair1_email=user1.email, pair2_email=user2.email,
+                        pair1_image=user1.Profile.image, pair2_image=user2.Profile.image,
+                        pair1_pMessage=user1.Profile.personal_message, pair2_pMessage=user2.Profile.personal_message)
             pair.save()
 
         # context = {
@@ -212,9 +246,26 @@ def full_match(users):
     # call helper functions
     pref_matching_even, pref_remainder = pref_match_helper(pref_users)
     rand_matching_even, rand_remainder = rand_match_helper(rand_users)
+
+    # edge case handling
+    if len(pref_remainder) == 0 and len(rand_remainder) == 0: 
+        return pref_matching_even + rand_matching_even
     
-    # do something with pref_remainder
-    return pref_matching_even + rand_matching_even
+    elif len(pref_remainder) == 1 and len(rand_remainder) == 0: 
+        odd_user = pref_remainder[0]
+        users.remove(odd_user)
+        other_user = random.choice(users)
+        return pref_matching_even + rand_matching_even + [[odd_user, other_user]]
+    
+    elif len(pref_remainder) == 0 and len(rand_remainder) == 1: 
+        odd_user = rand_remainder[0]
+        users.remove(odd_user)
+        other_user = random.choice(users)
+        return pref_matching_even + rand_matching_even + [[odd_user, other_user]]
+    
+    else:
+        new_match = [pref_remainder[0], rand_remainder[0]]
+        return pref_matching_even + rand_matching_even + [new_match]
 
 
 # random matching helper function
@@ -239,18 +290,22 @@ def rand_match_helper(users):
 
 # preference-based matching helper function
 def pref_match_helper(users):
-
-    # if there are 0 users
-    if len(users) == 0: return [], []
     
     # separate users into even #, remainder
+    random.shuffle(users)
     highest_even = (len(users) // 2) * 2
     users_even = users[:highest_even]
     users_remainder = users[highest_even:]
+
+    # if users_even is empty
+    if len(users_even) == 0: return [], users_remainder
+
+    # preferences to use for current matching
+    curr_prefs = np.random.permutation(5)
     
     # fetch user preferences
     preferences = {}
-    for user in users_even: preferences[user.id] = fetch_prefs(user)
+    for user in users_even: preferences[user.id] = fetch_prefs(user, curr_prefs)
     
     # get all permutations of users
     perms = list(permutations(users_even))
@@ -283,16 +338,21 @@ def set_match(user1, user2):
 
 
 # fetches user preferences
-def fetch_prefs(user):
+def fetch_prefs(user, curr_prefs):
 
-    prefs = np.zeros(5)
+    prefs = np.zeros(10)
     prefs[0] = user.Prefs.pref1
     prefs[1] = user.Prefs.pref2
     prefs[2] = user.Prefs.pref3
     prefs[3] = user.Prefs.pref4
     prefs[4] = user.Prefs.pref5
+    prefs[5] = user.Prefs.pref6
+    prefs[6] = user.Prefs.pref7
+    prefs[7] = user.Prefs.pref8
+    prefs[8] = user.Prefs.pref9
+    prefs[9] = user.Prefs.pref10
     
-    return prefs
+    return prefs[curr_prefs]
 
 
 # fetches matching for given ordering of users

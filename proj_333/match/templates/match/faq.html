@@ -1,0 +1,57 @@
+{% extends "match/base.html" %}
+{% block content %}
+{% if not user.is_authenticated %}
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+    <a class="navbar-brand mr-4 logo" href="{% url 'match-home' %}">TigerMingle</a>
+    </div>
+    </nav>
+{% endif %}
+    <div class="faq-container">
+        <div class="faq-panel">
+            <div class="about-page-title">
+                Frequently Asked Questions
+            </div>
+            
+            <br>
+              <div class="faq-align">
+                  <p class="faq-section-title"> What is TigerMingle?
+                      <hr>
+                      TigerMingle is a convenient way to set up one-on-one meetings within small communities and groups. It also allows you to get matched with someone within the Princeton community if you wish to get to know more people on campus.
+                      <br>
+                  </p>
+              </div>
+              <br>
+              <div class="faq-align">
+                  <p class="faq-section-title">Who can use TigerMingle?
+                      <hr>
+                      Currently TigerMingle is only open to Princeton students through the university login.
+                      <br>
+                  </p>
+              </div>
+              <br>
+              <div class="faq-align">
+                  <p class="faq-section-title">What are preferences?
+                      <hr>
+                      Preferences are a list of attributes that you can select when you make your profile by answering some questions. These preferences will then be used in our algorithm to match you with someone who had similar answers. 
+                  </p>
+              </div>
+              <div class="faq-align">
+                  <p class="faq-section-title">Can I choose to be randomly matched?
+                      <hr>
+                      Yes! Just go to your profile and uncheck the box next to “I want preference-based matching.”
+                      <br>
+                  </p>
+              </div>
+              <br>
+              <div class="faq-align">
+                  <p class="faq-section-title">How can I change my profile information?
+                      <hr>
+                      Click on the “Profile” link at the top right corner of the webpage. In the form below, you can customize your name, image, and personal message. You can also decide if you want preference-based matching. If you select the option for preference-based matching and then click the “Update” button, you will be taken to a page on which you can manipulate your preferences.
+                      <br>
+                  </p>
+              </div>
+              <br>
+        </div>
+      </div>
+{% endblock content %}

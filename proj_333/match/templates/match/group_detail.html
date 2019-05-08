@@ -19,13 +19,39 @@
     {% if object.owner == user %}
       {% for pair in pairs %}
         <h4 class="whiteText">{{ pair.pair_1_first }} {{ pair.pair_1_last }} is matched with {{ pair.pair_2_first }} {{ pair.pair_2_last }}</h4>
-      {% endfor %}
+        <img class="rounded-circle article-img" src="{{ pair.pair1_image.url }}">
+        <img class="rounded-circle article-img" src="{{ pair.pair2_image.url }}">
+        <hr>
+        {% endfor %}
     {% else %}
       {% for pair in pairs %}
         {% if pair.pair_1 == user.id %}
-        <p class="article-content whiteText">You're matched with: {{ pair.pair_2_first }}</p>
+        <article class="media">
+            <br>
+          <img class="rounded-circle article-img" src="{{ pair.pair2_image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2">{{ pair.pair_2_first }} {{ pair.pair_2_last }}</a>
+              <a class= "hyperText" href = "mailto: {{ pair.pair2_email }}">{{ pair.pair2_email }}</a>
+            </div>
+            <p class="article-content">{{ pair.pair2_pMessage }}</p>
+          </div>
+      </article>
         {% else %}
+        <article class="media">
+            <br>
+          <img class="rounded-circle article-img" src="{{ pair.pair1_image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2">{{ pair.pair_1_first }} {{ pair.pair_1_last }}</a>
+              <a class= "hyperText" href = "mailto: {{ pair.pair1_email }}">{{ pair.pair1_email }}</a>
+            </div>
+            <p class="article-content">{{ pair.pair1_pMessage }}</p>
+          </div>
+      </article>
+
         <p class="article-content whiteText">You're matched with: {{ pair.pair_1_first }}</p>
+        <img class="rounded-circle article-img" src="{{ pair.pair1_image.url }}">
         {% endif %}
       {% endfor %}
     {% endif %}
