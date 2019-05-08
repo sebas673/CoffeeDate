@@ -2,19 +2,143 @@
 {% block content %}
     {% if object.user == user %}
         {% for pref in prefs %}
-
-            <div class = "matchesDisplay">
-                <h2>You often spend time exploring unrealistic yet intriguing ideas: {{pref.pref1}}</h2>
-                <h2>You often think about what you should have said in a conversation long after it has taken place: {{pref.pref2}}</h2>
-                <h2>You enjoy vibrant social events with lots of people: {{pref.pref3}}</h2>
-                <h2>I would never cheat on my taxes: {{pref.pref4}}</h2>
-                <h2>You are more of a detail-oriented than a big picture person: {{pref.pref5}}</h2>
-                <h2>You have a careful and methodical approach to life: {{pref.pref6}}</h2>
-                <h2>In your opinion, it is sometimes OK to step on others to get ahead in life: {{pref.pref7}}</h2>
-                <h2>You usually lose interest in a discussion when it gets philosophical: {{pref.pref8}}</h2>
-                <h2>You feel more drawn to places with a bustling and busy atmosphere than to more quiet and intimate ones: {{pref.pref9}}</h2>
-                <h2>I handle tasks methodically: {{pref.pref10}}</h2>
+        <div class="form-center-container">
+            <div class="form-center-panel">
+                <div class="whiteText">
+                <p>You often spend time exploring unrealistic yet intriguing ideas:</p> 
+                {% if pref.pref1 == 1 %} 
+                <p>Strongly Disagree</p>
+                {% elif pref.pref1 == 2 %} 
+                <p>Somewhat Disagree</p>
+                {% elif pref.pref1 == 3 %} 
+                <p>Neutral</p>
+                {% elif pref.pref1 == 4 %} 
+                <p>Somewhat Agree</p>
+                {% elif pref.pref1 == 5 %} 
+                <p>Strongly Agree</p>
+                {% endif %}
+                <br> 
+                <p>You often think about what you should have said in a conversation long after it has taken place:</p>
+                {% if pref.pref2 == 1 %} 
+                <p>Strongly Disagree</p>
+                {% elif pref.pref2 == 2 %} 
+                <p>Somewhat Disagree</p>
+                {% elif pref.pref2 == 3 %} 
+                <p>Neutral</p>
+                {% elif pref.pref2 == 4 %} 
+                <p>Somewhat Agree</p>
+                {% elif pref.pref2 == 5 %} 
+                <p>Strongly Agree</p>
+                {% endif %}
+                <br> 
+                <p>You enjoy vibrant social events with lots of people:</p>
+                {% if pref.pref3 == 1 %} 
+                <p>Strongly Disagree</p>
+                {% elif pref.pref3 == 2 %} 
+                <p>Somewhat Disagree</p>
+                {% elif pref.pref3 == 3 %} 
+                <p>Neutral</p>
+                {% elif pref.pref3 == 4 %} 
+                <p>Somewhat Agree</p>
+                {% elif pref.pref3 == 5 %} 
+                <p>Strongly Agree</p>
+                {% endif %}
+                <br> 
+                <p>I would never cheat on my taxes:</p>
+                {% if pref.pref4 == 1 %} 
+                <p>Strongly Disagree</p>
+                {% elif pref.pref4 == 2 %} 
+                <p>Somewhat Disagree</p>
+                {% elif pref.pref4 == 3 %} 
+                <p>Neutral</p>
+                {% elif pref.pref4 == 4 %} 
+                <p>Somewhat Agree</p>
+                {% elif pref.pref4 == 5 %} 
+                <p>Strongly Agree</p>
+                {% endif %}
+                <br>     
+                <p>You are more of a detail-oriented than a big picture person.</p>
+                {% if pref.pref5 == 1 %} 
+                <p>Strongly Disagree</p>
+                {% elif pref.pref5 == 2 %} 
+                <p>Somewhat Disagree</p>
+                {% elif pref.pref5 == 3 %} 
+                <p>Neutral</p>
+                {% elif pref.pref5 == 4 %} 
+                <p>Somewhat Agree</p>
+                {% elif pref.pref5 == 5 %} 
+                <p>Strongly Agree</p>
+                {% endif %}
+                <br>    
+                <p>You have a careful and methodical approach to life.</p>
+                {% if pref.pref6 == 1 %} 
+                <p>Strongly Disagree</p>
+                {% elif pref.pref6 == 2 %} 
+                <p>Somewhat Disagree</p>
+                {% elif pref.pref6 == 3 %} 
+                <p>Neutral</p>
+                {% elif pref.pref6 == 4 %} 
+                <p>Somewhat Agree</p>
+                {% elif pref.pref6 == 5 %} 
+                <p>Strongly Agree</p>
+                {% endif %}
+                <br>    
+                <p>In your opinion, it is sometimes OK to step on others to get ahead in life.</p>
+                {% if pref.pref7 == 1 %} 
+                <p>Strongly Disagree</p>
+                {% elif pref.pref7 == 2 %} 
+                <p>Somewhat Disagree</p>
+                {% elif pref.pref7 == 3 %} 
+                <p>Neutral</p>
+                {% elif pref.pref7 == 4 %} 
+                <p>Somewhat Agree</p>
+                {% elif pref.pref7 == 5 %} 
+                <p>Strongly Agree</p>
+                {% endif %}
+                <br>       
+                <p>You usually lose interest in a discussion when it gets philosophical:</p>
+                {% if pref.pref8 == 1 %} 
+                <p>Strongly Disagree</p>
+                {% elif pref.pref8 == 2 %} 
+                <p>Somewhat Disagree</p>
+                {% elif pref.pref8 == 3 %} 
+                <p>Neutral</p>
+                {% elif pref.pref8 == 4 %} 
+                <p>Somewhat Agree</p>
+                {% elif pref.pref8 == 5 %} 
+                <p>Strongly Agree</p>
+                {% endif %}
+                <br>       
+                <p>You feel more drawn to places with a bustling and busy atmosphere than to more quiet and intimate ones:</p>
+                {% if pref.pref9 == 1 %} 
+                <p>Strongly Disagree</p>
+                {% elif pref.pref9 == 2 %} 
+                <p>Somewhat Disagree</p>
+                {% elif pref.pref9 == 3 %} 
+                <p>Neutral</p>
+                {% elif pref.pref9 == 4 %} 
+                <p>Somewhat Agree</p>
+                {% elif pref.pref9 == 5 %} 
+                <p>Strongly Agree</p>
+                {% endif %}
+                <br>  
+                <p>I handle tasks methodically:</p>
+                {% if pref.pref10 == 1 %} 
+                <p>Strongly Disagree</p>
+                {% elif pref.pref10 == 2 %} 
+                <p>Somewhat Disagree</p>
+                {% elif pref.pref10 == 3 %} 
+                <p>Neutral</p>
+                {% elif pref.pref10 == 4 %} 
+                <p>Somewhat Agree</p>
+                {% elif pref.pref10 == 5 %} 
+                <p>Strongly Agree</p>
+                {% endif %}
+                <br>  
+                </div>
             </div>
+        </div>
+            
         {% endfor %}
     {% endif %}
 {% endblock content %}

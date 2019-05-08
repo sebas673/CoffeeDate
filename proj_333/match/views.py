@@ -179,12 +179,16 @@ class PrefsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 def match_all(request):
 
     # reset all users
-    for user in User.objects.all():
-        user.Profile.is_matched = False
-#---------------------------------------------------------------------------------------------------------------------
+    # for user in User.objects.all():
+    #     print('user')
+    #     print(user)
+    #     user.Profile.is_matched = False
+    #     print(user.Profile.is_matched)
 
-    users = [user for user in User.objects.all().filter(Profile__is_matched='False')] # Profile needs to change to Prefs?
-    matching = full_match(users)
+    users = [user for user in User.objects.all()] # Profile needs to change to Prefs?
+    print('here')
+    print(users)
+    matching = full_match(users, rand=True)
     for match in matching:
         set_match(match[0], match[1])
         set_match(match[1], match[0])
@@ -216,7 +220,7 @@ def match_group(request, pk):
         print('group users')
         print(group_users)
 
-        matching = full_match(group_users)
+        matching = full_match(group_users, rand=False)
         for match in matching:
             print('make here')
             user1, user2 = User.objects.get(id=match[0].id), User.objects.get(id=match[1].id)
@@ -237,16 +241,25 @@ def match_group(request, pk):
 
 
 # matching function
-def full_match(users):
+def full_match(users, rand):
     
     # get preference/no preference user lists
-    pref_users = [user for user in users if user.Profile.prefs_match==True]
-    rand_users = [user for user in users if user not in pref_users]
+    # pref_users = [user for user in users if user.Profile.prefs_match==True]
+    # rand_users = [user for user in users if user not in pref_users]
     
     # call helper functions
-    pref_matching_even, pref_remainder = pref_match_helper(pref_users)
-    rand_matching_even, rand_remainder = rand_match_helper(rand_users)
+    # pref_matching_even, pref_remainder = pref_match_helper(pref_users)
+    rand_matching_even, rand_remainder = rand_match_helper(users)
 
+    if len(rand_remainder) == 0: 
+        return rand_matching_even
+    else:
+        odd_user = rand_remainder[0]
+        users.remove(odd_user)
+        other_user = random.choice(users)
+        return rand_matching_even + [[odd_user, other_user]]
+    
+    '''
     # edge case handling
     if len(pref_remainder) == 0 and len(rand_remainder) == 0: 
         return pref_matching_even + rand_matching_even
@@ -266,6 +279,7 @@ def full_match(users):
     else:
         new_match = [pref_remainder[0], rand_remainder[0]]
         return pref_matching_even + rand_matching_even + [new_match]
+    '''
 
 
 # random matching helper function

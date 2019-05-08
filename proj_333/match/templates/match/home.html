@@ -7,10 +7,10 @@
       {% if not user.Profile.is_matched %}
       <div class="center-container"> 
           <div class = "center-panel">
-              <h1 class="NotMatchedMessage">Welcome to TigerMingle! <hr> You're on your way to meeting cool new friends. Click the button below so we can find you a match. </h1>
+              <h1 class="NotMatchedMessage">Welcome to TigerMingle! <hr> You can wait for your weekly Princeton-wide match. <br> You can wait for someone to add you to a group. <br> You can make a new group. </h1>
                 <br>
                 <br>
-                <a class="btn notMatchedButton" href="{% url 'match-all' %}" role="button">Start Mingling</a>
+                <a class="btn notMatchedButton" href="{% url 'group-create' %}" role="button">New Group</a>
           </div>
       </div>
       {% endif %}
@@ -34,7 +34,7 @@
               </article>
             </div>   
             <br>
-      <h2 class="whiteText centeredText">Groups you're in</h2>
+      <h2 class="whiteText centeredText">Groups You Are In</h2>
       <hr>
       {% for group in groups_member %}
         <article class="media matchesDisplay">
@@ -60,7 +60,7 @@
         </article>
       {% endfor %}
       <br>
-      <h2 class="whiteText centeredText">Groups you admin </h2>
+      <h2 class="whiteText centeredText">Groups You Admin </h2>
       <hr>
       {% for group in groups_owner %}
         <article class="media matchesDisplay">
@@ -94,7 +94,7 @@
             <th>
             </th>
             <th>
-                <a class="btn registerButton btn-lg active btn-block" href="{% url 'uniauth' %}">CAS</a>
+                <a class="btn loginButton btn-lg active btn-block" href="accounts/login/">CAS</a>
             </th>
           </tr>
         </table>
