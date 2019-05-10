@@ -1,0 +1,13 @@
+{% extends "match/base.html" %}
+{% block content %}
+
+    <div class="center-container"> 
+        <div class = "center-panel">
+            <h1 class="NotMatchedMessage">Welcome to TigerMingle! <br> You can wait for someone to add you to a group. <br> You can make a new group. </h1>
+            <br>
+            <br>
+            <a class="btn notMatchedButton" href="{% url 'group-create' %}" role="button">Get Started</a>
+        </div>
+    </div>
+
+{% endblock content %}

@@ -25,8 +25,9 @@ class UserUpdateForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image', 'personal_message', 'prefs_match']
+        fields = ['image', 'personal_message', 'prefs_match', 'is_global']
 
         labels = {
-            "prefs_match": "Do you want a preference-based matching?"
+            "prefs_match": "Do you want your matching to be personalized?", 
+            "is_global": "Do you want to be matched weekly with another Princeton student?"
         }

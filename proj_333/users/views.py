@@ -35,10 +35,9 @@ def profile(request):
 
             # updates the fields of the matched mate as well
             user_that_updated = request.user
-            if user_that_updated.Profile.is_matched == True:
+            if user_that_updated.Profile.is_global == True:
                 user_to_update = User.objects.get(Profile__mate_ID=user_that_updated.id)
                 if user_to_update:
-                    print("FIX ME view in users line 41")
                     user_to_update.Profile.mate_firstname = user_that_updated.first_name
                     user_to_update.Profile.mate_lastname = user_that_updated.last_name
                     user_to_update.Profile.mate_image = user_that_updated.Profile.image
@@ -88,8 +87,14 @@ def profile(request):
                 #     return redirect('prefs-create')
             # user just wants a random matching
             else:
-                messages.info(request, f'Your Account Has Been Updated!')
-                return redirect('profile')
+                if user.Profile.has_customized:
+                    messages.info(request, f'Your Account Has Been Updated!')
+                    return redirect('profile')
+                else:
+                    messages.info(request, f'You Have Finished Creating Your Account.')
+                    user.Profile.has_customized = True
+                    user.Profile.save()
+                    return redirect('profile')
 
     else:
         u_form = UserUpdateForm(instance=request.user)

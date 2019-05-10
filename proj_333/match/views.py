@@ -25,19 +25,25 @@ def home(request):
         # makes the user pick their preferences
         if user.Profile.has_customized == False:
             messages.success(request, f'Finish customizing your profile')
-            user.Profile.has_customized = True
-            user.Profile.save()
             return redirect('profile')
         else:
-            context = {
-                'groups_member': Group.objects.all().filter(members=user.Profile).exclude(owner=user),
-                'groups_owner': Group.objects.all().filter(owner=user),
-                'pairs': Pair.objects.all().filter(pair_1=user.id) | Pair.objects.all().filter(pair_2=user.id)
-            }
-        return render(request, 'match/home.html', context)
+
+            if user.Profile.is_first == False:
+                user.Profile.is_first = True
+                user.Profile.save()
+                return render(request, 'match/home_first.html')
+            else:
+                context = {
+                    'groups_member': Group.objects.all().filter(members=user.Profile).exclude(owner=user),
+                    'groups_owner': Group.objects.all().filter(owner=user),
+                    'pairs': Pair.objects.all().filter(pair_1=user.id) | Pair.objects.all().filter(pair_2=user.id)
+                }
+                return render(request, 'match/home.html', context)
     else:
         return render(request, 'match/home.html')
 
+def home_first(request):
+    return render(request, 'match/home_first.html')
 
 def about(request):
     return render(request, 'match/about.html', {'title': 'About'})
@@ -49,7 +55,7 @@ def faq(request):
 # class GroupListView(ListView):
 #     model = Group
 #     user = self.User
-#     template_name = 'match/home.html'  # <app>/<model>_<viewtype>.html
+#     template_name = 'match/home.html' 
 #     context_object_name = 'groups'
 #     ordering = ['-date_created']
 
@@ -60,6 +66,7 @@ class GroupDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['pairs'] = Pair.objects.filter(pair_group=self.object)
+        messages.success(request, f'Gamg')
         return context
 
 

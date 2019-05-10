@@ -1,23 +1,11 @@
 {% extends "match/base.html" %}
 {% block content %}
   {% if user.Profile.signed_in %}
-    {% if not user.Profile.is_matched %}
-    
-      
-      {% if not user.Profile.is_matched %}
-      <div class="center-container"> 
-          <div class = "center-panel">
-              <h1 class="NotMatchedMessage">Welcome to TigerMingle! <hr> You can wait for your weekly Princeton-wide match. <br> You can wait for someone to add you to a group. <br> You can make a new group. </h1>
-                <br>
-                <br>
-                <a class="btn notMatchedButton" href="{% url 'group-create' %}" role="button">New Group</a>
-          </div>
-      </div>
-      {% endif %}
-    {% else %}
       
         <div class= "form-center-container">
           <div class="form-center-panel">
+
+            {% if user.Profile.is_global %}
             <h2 class="whiteText centeredText">Your Princeton-Wide Match Of the Week </h2>
             <hr>
             <div class = "matchesDisplay"> 
@@ -34,6 +22,7 @@
               </article>
             </div>   
             <br>
+            {% endif %}
       <h2 class="whiteText centeredText">Groups You Are In</h2>
       <hr>
       {% for group in groups_member %}
@@ -73,7 +62,6 @@
         </article>
       {% endfor %}
 
-    {% endif %}
   </div>
 </div>
   {% else %}
