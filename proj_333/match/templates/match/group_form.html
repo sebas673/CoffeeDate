@@ -1,16 +1,21 @@
 {% extends "match/base.html" %}
 {% load crispy_forms_tags %}
+{% load widget_tweaks %}
 {% block content %}
     <div class="form-center-container">
         <div class="form-center-panel">
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 
                     <legend class="border-bottom mb-4 centeredText whiteText">Group</legend>
                     {{ form.group_name|as_crispy_field }}
                     {{ form.group_image|as_crispy_field }}
                     {{ form.group_description|as_crispy_field }}
+
+
                     {{ form.members|as_crispy_field }}
+
+                    {{ form.members.search_query|attr:"type:search" }}
              
                 <div class="form-group">
                     <button class="btn btn-outline-info" type="submit">Submit</button>

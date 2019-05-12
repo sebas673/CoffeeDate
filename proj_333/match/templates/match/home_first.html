@@ -3,10 +3,13 @@
 
     <div class="center-container"> 
         <div class = "center-panel">
-            <h1 class="NotMatchedMessage">Welcome to TigerMingle! <br> You can wait for someone to add you to a group. <br> You can make a new group. </h1>
+            <h1 class="NotMatchedMessage">Welcome to TigerMingle! <hr> You can wait for someone to add you to a group. <br> You can make a new group. </h1>
             <br>
+            <p class="welcomeText">TigerMingle allows users to indicate preferences or characteristics on the basis of which they can choose to be matched. 
+                These preferences are then used by an algorithm in the backend which matches up people who are similar. If you want preference-based matching, 
+                you can indicate that by going to your profile and checking the tick-box at the bottom which says "I want preference-based matching."</p>
             <br>
-            <a class="btn notMatchedButton" href="{% url 'group-create' %}" role="button">Get Started</a>
+            <a class="btn notMatchedButton" href="{% url 'match-home' %}" role="button">Get Started</a>
         </div>
     </div>
 

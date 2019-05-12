@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'match.apps.MatchConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
+    'widget_tweaks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
