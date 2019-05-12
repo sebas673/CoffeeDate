@@ -41,7 +41,7 @@ class Profile(models.Model):
     personal_message = models.TextField(max_length=None, default="Hello!")
 
     signed_in = models.BooleanField(default=True)  # this one will never change
-    is_global = models.BooleanField(default=False)  # does the user want a global match every week?
+    is_global = models.BooleanField(default=True)  # does the user want a global match every week?
     is_matched = models.BooleanField(default=False)
     has_customized = models.BooleanField(default=False)  # has the user customized their preferences?
     is_first = models.BooleanField(default=False)
