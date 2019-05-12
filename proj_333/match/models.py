@@ -12,6 +12,7 @@ class Group(models.Model):
     date_created = models.DateTimeField(default=timezone.now)
     group_description = models.TextField()
     members = models.ManyToManyField(Profile)
+    admin_joined = models.BooleanField(default=False)
 
     def __str__(self):
         return self.group_name

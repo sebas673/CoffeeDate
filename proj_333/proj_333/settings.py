@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'storages',
-    'uniauth', 
-    'django_select2'
+    'uniauth'
 ]
 
 MIDDLEWARE = [

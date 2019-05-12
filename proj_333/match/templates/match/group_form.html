@@ -10,9 +10,7 @@
                     {{ form.group_name|as_crispy_field }}
                     {{ form.group_image|as_crispy_field }}
                     {{ form.group_description|as_crispy_field }}
-
-
-                    {{ form.members}}
+                    {{ form.members|as_crispy_field}}
              
                 <div class="form-group">
                     <button class="btn btn-outline-info" type="submit">Submit</button>
