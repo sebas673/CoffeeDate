@@ -233,7 +233,7 @@ def match_group(request, pk):
             return redirect('group-detail', pk)
         
         elif num_members % 2 == 1:
-            messages.warning(request, f'There are odd number of members in this group. Someone will be matched twice.')
+            messages.warning(request, f'There are odd number of members in this group. Someone will be matched twice. Make sure you let the person know.')
 
 
 
