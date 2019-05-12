@@ -8,7 +8,7 @@ from users.models import Profile
 class Group(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)  # on_delete=models.CASCADE means this group will be deleted when the owner us deleted
     group_name = models.CharField(max_length=100)
-    group_image = models.ImageField(default='default.jpg', upload_to='group_pics')
+    group_image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     date_created = models.DateTimeField(default=timezone.now)
     group_description = models.TextField()
     members = models.ManyToManyField(Profile)
@@ -29,8 +29,8 @@ class Pair(models.Model):
     pair_2_last = models.CharField(max_length=50, null=True)
     pair1_email = models.CharField(max_length=50, default="princeton@princeton.edu")
     pair2_email = models.CharField(max_length=50, default="princeton@princeton.edu")
-    pair1_image = models.ImageField(default='default.jpg', upload_to='group_pics')
-    pair2_image= models.ImageField(default='default.jpg', upload_to='group_pics')
+    pair1_image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    pair2_image= models.ImageField(default='default.jpg', upload_to='profile_pics')
     pair1_pMessage = models.TextField(max_length=None, default="Hello!")
     pair2_pMessage = models.TextField(max_length=None, default="Hello!")
 

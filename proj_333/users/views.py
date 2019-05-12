@@ -35,14 +35,14 @@ def profile(request):
 
             # updates the fields of the matched mate as well
             user_that_updated = request.user
-            if user_that_updated.Profile.is_global == True:
-                user_to_update = User.objects.get(Profile__mate_ID=user_that_updated.id)
-                if user_to_update:
-                    user_to_update.Profile.mate_firstname = user_that_updated.first_name
-                    user_to_update.Profile.mate_lastname = user_that_updated.last_name
-                    user_to_update.Profile.mate_image = user_that_updated.Profile.image
-                    user_to_update.Profile.mate_personal_message = user_that_updated.Profile.personal_message
-                    user_to_update.Profile.save()
+            if user_that_updated.Profile.is_global == True and user_that_updated.Profile.is_matched == True:
+                user_to_update = User.objects.all().filter(Profile__mate_ID=user_that_updated.id)
+                for user in user_to_update:
+                    user.Profile.mate_firstname = user_that_updated.first_name
+                    user.Profile.mate_lastname = user_that_updated.last_name
+                    user.Profile.mate_image = user_that_updated.Profile.image
+                    user.Profile.mate_personal_message = user_that_updated.Profile.personal_message
+                    user.Profile.save()
 
                 # updates the fields of the pair as well
                 pairs = Pair.objects.all().filter(pair_1=user_that_updated.id)
@@ -51,7 +51,7 @@ def profile(request):
                     pair.pair_1_last = user_that_updated.last_name
                     pair.pair1_email = user_that_updated.email
                     pair.pair1_image = user_that_updated.Profile.image
-                    pair1_pMessage = user_that_updated.Profile.personal_message
+                    pair.pair1_pMessage = user_that_updated.Profile.personal_message
                     pair.save()
 
                 pairs = Pair.objects.all().filter(pair_2=user_that_updated.id)
@@ -60,7 +60,7 @@ def profile(request):
                     pair.pair_2_last = user_that_updated.last_name
                     pair.pair2_email = user_that_updated.email
                     pair.pair2_image = user_that_updated.Profile.image
-                    pair2_pMessage = user_that_updated.Profile.personal_message
+                    pair.pair2_pMessage = user_that_updated.Profile.personal_message
                     pair.save()
 
             

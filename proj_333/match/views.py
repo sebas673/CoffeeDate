@@ -66,7 +66,6 @@ class GroupDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['pairs'] = Pair.objects.filter(pair_group=self.object)
-        messages.success(request, f'Gamg')
         return context
 
 
@@ -181,8 +180,8 @@ class PrefsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 # matches all the members
-# @login_required
-# @user_passes_test(lambda u: u.is_superuser)
+@login_required
+@user_passes_test(lambda u: u.is_superuser, login_url='match-home')
 def match_all(request):
 
     # reset all users
@@ -192,9 +191,13 @@ def match_all(request):
     #     user.Profile.is_matched = False
     #     print(user.Profile.is_matched)
 
-    users = [user for user in User.objects.all()] # Profile needs to change to Prefs?
-    print('here')
-    print(users)
+    users = [user for user in User.objects.all().filter(Profile__is_global=True)]
+
+    # for user in users:
+    #     user.Profile.mate_ID = 0
+    #     user.Profile.is_matched = False
+    #     user.Profile.save()
+
     matching = full_match(users, rand=True)
     for match in matching:
         set_match(match[0], match[1])
@@ -209,23 +212,23 @@ def match_group(request, pk):
 
         # add admin to the group
         group_in.members.add(request.user.Profile)
-        print('here')
         # will delete all the old Pairs when running a new matching
         pairs = Pair.objects.all().filter(pair_group=group_in)
         for pair in pairs:
-            print('delete here')
             pair.delete()
 
         member_list = [Group.members.all() for Group in Group.objects.all().filter(id=pk)]
         group_users = [Profile.user for Profile in member_list[0]]
 
-        if len(group_users) == 1:
+        num_members = len(group_users)
+        if num_members == 1:
             messages.warning(request, f'You\'re the only person in this group. A matching cannot be run on one person.')
             return redirect('group-detail', pk)
+        
+        elif num_members % 2 == 1:
+            messages.warning(request, f'There is an odd number of members in this group. Someone will be matched twice.')
 
 
-        print('group users')
-        print(group_users)
 
         matching = full_match(group_users, rand=False)
         for match in matching:
