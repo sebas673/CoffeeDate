@@ -45,6 +45,7 @@ class Profile(models.Model):
     is_matched = models.BooleanField(default=False)
     has_customized = models.BooleanField(default=False)  # has the user customized their preferences?
     is_first = models.BooleanField(default=False)
+    wants_group = models.BooleanField(default=True)
 
     mate_ID = models.PositiveIntegerField(default=0)
     mate_firstname = models.CharField(max_length=50, default="Christoper")

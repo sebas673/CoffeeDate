@@ -1,5 +1,6 @@
 {% extends "match/base.html" %}
 {% load crispy_forms_tags %}
+{% load staticfiles %}
 {% block content %}
     <div class="form-center-container">
         <div class="form-center-panel">
@@ -10,7 +11,7 @@
                     {{ form.group_name|as_crispy_field }}
                     {{ form.group_image|as_crispy_field }}
                     {{ form.group_description|as_crispy_field }}
-                    {{ form.members|as_crispy_field}}
+                    {{ form.members.as_p}}
              
                 <div class="form-group">
                     <button class="btn btn-outline-info" type="submit">Submit</button>
@@ -18,5 +19,10 @@
             </form>
          </div>
     </div>
-{{ form.media.js }}
 {% endblock content %}
+
+{% block footer %}
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+
+{{ form.media }}
+{% endblock %}

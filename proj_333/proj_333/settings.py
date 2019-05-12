@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'storages',
-    'uniauth'
+    'uniauth', 
+    'dal',
+    'dal_select2'
 ]
 
 MIDDLEWARE = [

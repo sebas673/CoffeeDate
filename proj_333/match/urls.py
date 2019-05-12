@@ -10,6 +10,9 @@ from .views import (
     PrefsCreateView,
     PrefsUpdateView,
 )
+from .views import MemberAutocomplete
+from django.urls import path, include
+from django.conf.urls import url
 
 urlpatterns = [
     path('', views.home, name='match-home'),
@@ -24,5 +27,10 @@ urlpatterns = [
     path('match/group/<int:pk>/', views.match_group, name='match-group'),
     path('preferences/<int:pk>/', PrefsDetailView.as_view(), name='prefs-detail'),
     path('preferences/new/', PrefsCreateView.as_view(), name='prefs-create'),
-    path('preferences/<int:pk>/update/', PrefsUpdateView.as_view(), name='prefs-update')
+    path('preferences/<int:pk>/update/', PrefsUpdateView.as_view(), name='prefs-update'),
+    url(
+        r'^member-autocomplete/$',
+        MemberAutocomplete.as_view(),
+        name='member-autocomplete',
+    )
 ]

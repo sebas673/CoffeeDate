@@ -17,6 +17,23 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from itertools import permutations
 import numpy as np
+from dal import autocomplete
+
+
+
+class MemberAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        # Don't forget to filter out results depending on the visitor !
+        if not self.request.user.is_authenticated():
+            return User.objects.none()
+
+        qs = User.objects.all()
+
+        if self.q:
+            qs = qs.filter(Profile__wants_group=True)
+
+        return qs
+
 
 
 def home(request):
@@ -75,7 +92,7 @@ class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ['group_name', 'group_image', 'group_description', 'members']
-    members = forms.ModelMultipleChoiceField(queryset=Profile.objects.all(), widget=forms.CheckboxSelectMultiple())
+    members = forms.ModelMultipleChoiceField(queryset=Profile.objects.all(), widget=autocomplete.ModelSelect2Multiple(url='member-autocomplete'))
     # things = ModelMultipleChoiceField(queryset=Thing.objects.all(), widget=Select2MultipleWidget)
 
 
