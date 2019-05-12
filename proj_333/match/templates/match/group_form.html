@@ -1,6 +1,5 @@
 {% extends "match/base.html" %}
 {% load crispy_forms_tags %}
-{% load widget_tweaks %}
 {% block content %}
     <div class="form-center-container">
         <div class="form-center-panel">
@@ -13,9 +12,7 @@
                     {{ form.group_description|as_crispy_field }}
 
 
-                    {{ form.members|as_crispy_field }}
-
-                    {{ form.members.search_query|attr:"type:search" }}
+                    {{ form.members}}
              
                 <div class="form-group">
                     <button class="btn btn-outline-info" type="submit">Submit</button>
@@ -23,4 +20,5 @@
             </form>
          </div>
     </div>
+{{ form.media.js }}
 {% endblock content %}

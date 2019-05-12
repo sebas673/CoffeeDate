@@ -17,6 +17,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from itertools import permutations
 import numpy as np
+from django_select2.forms import Select2MultipleWidget
 
 
 def home(request):
@@ -73,7 +74,8 @@ class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ['group_name', 'group_image', 'group_description', 'members']
-    members = forms.ModelMultipleChoiceField(queryset=Profile.objects.all(), widget=forms.CheckboxSelectMultiple())
+    members = forms.ModelMultipleChoiceField(queryset=Profile.objects.all(), widget=Select2MultipleWidget)
+    # things = ModelMultipleChoiceField(queryset=Thing.objects.all(), widget=Select2MultipleWidget)
 
 
 class GroupCreateView(LoginRequiredMixin, CreateView):
