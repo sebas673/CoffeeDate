@@ -250,49 +250,42 @@ def match_group(request, pk):
         return redirect('group-detail', pk)
 
 
-# matching function
+# FULL MATCHING FUNCTION
 def full_match(users, rand):
     
-    # get preference/no preference user lists
-    # pref_users = [user for user in users if user.Profile.prefs_match==True]
-    # rand_users = [user for user in users if user not in pref_users]
+    # get preference/random user lists
+    pref_users = [user for user in users if user.Profile.prefs_match==True]
+    rand_users = [user for user in users if user not in pref_users]
     
     # call helper functions
-    # pref_matching_even, pref_remainder = pref_match_helper(pref_users)
+    pref_matching_even, pref_remainder = pref_match_helper(pref_users)
     rand_matching_even, rand_remainder = rand_match_helper(users)
 
-    if len(rand_remainder) == 0: 
-        return rand_matching_even
-    else:
-        odd_user = rand_remainder[0]
-        users.remove(odd_user)
-        other_user = random.choice(users)
-        return rand_matching_even + [[odd_user, other_user]]
-    
-    '''
-    # edge case handling
+    # case 1: even number of people in both groups
     if len(pref_remainder) == 0 and len(rand_remainder) == 0: 
         return pref_matching_even + rand_matching_even
     
+    # case 2: one leftover person from preference-based matching
     elif len(pref_remainder) == 1 and len(rand_remainder) == 0: 
         odd_user = pref_remainder[0]
         users.remove(odd_user)
         other_user = random.choice(users)
         return pref_matching_even + rand_matching_even + [[odd_user, other_user]]
     
+    # case 3: one leftover person from random matching
     elif len(pref_remainder) == 0 and len(rand_remainder) == 1: 
         odd_user = rand_remainder[0]
         users.remove(odd_user)
         other_user = random.choice(users)
         return pref_matching_even + rand_matching_even + [[odd_user, other_user]]
     
+    # case 4: one leftover person from each
     else:
         new_match = [pref_remainder[0], rand_remainder[0]]
         return pref_matching_even + rand_matching_even + [new_match]
-    '''
 
 
-# random matching helper function
+# RANDOM MATCHING HELPER
 def rand_match_helper(users):
 
     # if there are 0 users
@@ -312,43 +305,68 @@ def rand_match_helper(users):
     return matching, users_remainder
 
 
-# preference-based matching helper function
+# PREFERENCE-BASED MATCHING HELPER
 def pref_match_helper(users):
+
+    # if total number of users is < 7, just match randomly
+    if len(users) < 7:
+        matching, users_remainder = rand_match_helper(users)
+        return matching, users_remainder
     
-    # separate users into even #, remainder
+    # matching list, remainder list
+    matching = []
+    
+    # shuffle users, set bin size, get # of bins
     random.shuffle(users)
-    highest_even = (len(users) // 2) * 2
-    users_even = users[:highest_even]
-    users_remainder = users[highest_even:]
+    bin_size = 6
+    num_bins = len(users) // bin_size
 
-    # if users_even is empty
-    if len(users_even) == 0: return [], users_remainder
-
-    # preferences to use for current matching
-    curr_prefs = np.random.permutation(5)
+    # iterate over bins, match people
+    for i in range(num_bins):
+        current_bin = users[i * bin_size : (i+1) * bin_size]
+        matching += match_bin(current_bin)
     
-    # fetch user preferences
+    # get any remaining users
+    final_bin = users[num_bin * bin_size : (num_bin+1) * bin_size]
+    
+    # separate them into an even number & the remaining user (if there is an odd number)
+    even_num = (len(final_bin) // 2) * 2
+    fbin_even = final_bin[:even_num]
+    users_remainder = final_bin[even_num:]
+    
+    # if it contains pair(s), match final bin people
+    if len(fbin_even) > 0: matching += match_bin(fbin_even)
+    
+    return matching, users_remainder
+
+
+# HELPER FUNCTION THAT MATCHES BIN WITH EVEN # OF PEOPLE
+def match_bin(users):
+
+    # fetch preferences for users
     preferences = {}
-    for user in users_even: preferences[user.id] = fetch_prefs(user, curr_prefs)
+    for user in users: preferences[user.id] = fetch_prefs(user)
     
     # get all permutations of users
-    perms = list(permutations(users_even))
+    perms = list(permutations(users))
 
-    # variables for minimum-dist matching
+    # variables for minimum-distance matching
     min_dist = 1000000
     min_matching = []
 
-    # iterate over permutations of users, find minimum-dist matching
+    # iterate over user permutations, find min-distance matching
     for perm in perms:
         perm = list(perm)
         matching = get_match(perm)
         distance = get_match_dist(matching, preferences)
-        if distance < min_dist: min_matching, min_dist = matching, distance
+        if distance < min_dist: 
+            min_matching = matching
+            min_dist = distance
     
-    return min_matching, users_remainder
+    return min_matching
 
 
-# sets user 2 as user 1 match
+# SETS USER 2 AS USER 1'S MATCH
 def set_match(user1, user2):
 
     user1.Profile.mate_ID = user2.id
@@ -361,8 +379,8 @@ def set_match(user1, user2):
     user1.Profile.save()
 
 
-# fetches user preferences
-def fetch_prefs(user, curr_prefs):
+# FETCHES USER PREFERENCES
+def fetch_prefs(user):
 
     prefs = np.zeros(10)
     prefs[0] = user.Prefs.pref1
@@ -376,10 +394,10 @@ def fetch_prefs(user, curr_prefs):
     prefs[8] = user.Prefs.pref9
     prefs[9] = user.Prefs.pref10
     
-    return prefs[curr_prefs]
+    return prefs
 
 
-# fetches matching for given ordering of users
+# GETS MATCHING FOR GIVEN ORDERING OF USERS
 def get_match(user_list):
     
     # set up matching list
@@ -394,7 +412,7 @@ def get_match(user_list):
     return matching
 
 
-# get average distance between pairs in matching
+# GETS AVERAGE SQUARED DISTANCE BETWEEN PAIRS IN MATCHING
 def get_match_dist(matching, prefs):
 
     matching_dist = 0
@@ -411,6 +429,41 @@ def get_match_dist(matching, prefs):
 
 
 
+
+# # preference-based matching helper function
+# def pref_match_helper(users):
+    
+#     # separate users into even #, remainder
+#     random.shuffle(users)
+#     highest_even = (len(users) // 2) * 2
+#     users_even = users[:highest_even]
+#     users_remainder = users[highest_even:]
+
+#     # if users_even is empty
+#     if len(users_even) == 0: return [], users_remainder
+
+#     # preferences to use for current matching
+#     curr_prefs = np.random.permutation(5)
+    
+#     # fetch user preferences
+#     preferences = {}
+#     for user in users_even: preferences[user.id] = fetch_prefs(user, curr_prefs)
+    
+#     # get all permutations of users
+#     perms = list(permutations(users_even))
+
+#     # variables for minimum-dist matching
+#     min_dist = 1000000
+#     min_matching = []
+
+#     # iterate over permutations of users, find minimum-dist matching
+#     for perm in perms:
+#         perm = list(perm)
+#         matching = get_match(perm)
+#         distance = get_match_dist(matching, preferences)
+#         if distance < min_dist: min_matching, min_dist = matching, distance
+    
+#     return min_matching, users_remainder
 
 
 
