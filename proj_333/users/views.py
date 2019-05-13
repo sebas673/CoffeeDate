@@ -79,13 +79,6 @@ def profile(request):
                     pref = Prefs.objects.get(user=user)
                     return redirect('prefs-update', pref.id)
 
-                # first time setting up preferences
-                # else:
-                #     messages.info(request, f'Finish Creating Your Profile!')
-                #     user.Profile.prefs_created = True # this line breaks ------------------------------------------------
-                #     user.Profile.save()
-                #     return redirect('prefs-create')
-            # user just wants a random matching
             else:
                 if user.Profile.has_customized:
                     messages.info(request, f'Your Account Has Been Updated!')
