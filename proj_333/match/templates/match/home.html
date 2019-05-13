@@ -3,7 +3,12 @@
   {% if user.Profile.signed_in %}
       
     {% if request.user.is_superuser %}
-      <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'match-all' %}">Match All</a>
+    <div class= "form-center-container">
+      <div class="form-center-panel">
+          <p class="article-content d-inline">Run global matching:
+      <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'match-all' %}">Match All</a>
+      </div>
+    </div>
     
     {% else %}
 
