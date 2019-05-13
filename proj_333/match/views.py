@@ -186,19 +186,7 @@ class PrefsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 @user_passes_test(lambda u: u.is_superuser, login_url='match-home')
 def match_all(request):
 
-    # reset all users
-    # for user in User.objects.all():
-    #     print('user')
-    #     print(user)
-    #     user.Profile.is_matched = False
-    #     print(user.Profile.is_matched)
-
     users = [user for user in User.objects.all().filter(Profile__is_global=True)]
-
-    # for user in users:
-    #     user.Profile.mate_ID = 0
-    #     user.Profile.is_matched = False
-    #     user.Profile.save()
 
     matching = full_match(users, rand=True)
     for match in matching:
@@ -247,9 +235,6 @@ def match_group(request, pk):
                         pair1_pMessage=user1.Profile.personal_message, pair2_pMessage=user2.Profile.personal_message)
             pair.save()
 
-        # context = {
-        #     'pairs': Pair.objects.all().filter()
-        # }
 
         return redirect('group-detail', pk)
     else:
